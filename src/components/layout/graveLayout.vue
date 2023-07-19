@@ -1,8 +1,8 @@
 <template>
-    <div class="app-wrapper">
-      <Sidebar></Sidebar>
+    <div v-if="userInfo" class="app-wrapper">
+      <!-- <Sidebar></Sidebar> -->
       <div class="main-container">
-        <Navbar></Navbar>
+        <Navbar>xx管理系统</Navbar>
         <app-main></app-main>
       </div>
     </div>
@@ -17,7 +17,7 @@ export default defineComponent({
     name: 'layout',
     components: { Sidebar, Navbar, AppMain },
     async created(){
-      // await this.getUserInfo()
+      await this.getUserInfo()
     },
     computed:{
       ...mapState(['userInfo'])
@@ -41,7 +41,7 @@ export default defineComponent({
   overflow: hidden;
   .main-container{
     transition: margin-left 0.28s;
-    padding-left: 150px;
+    // padding-left: 150px;
     box-sizing: border-box;
     width: 100%;
     height: 100%;

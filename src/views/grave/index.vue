@@ -7,25 +7,10 @@
       @add="handleAdd"
     >
     <template #action="scope">
-      <el-button type="text" @click="handSelect(scope.row)">选中</el-button>
+      <el-button type="text" @click="handSelect(scope.row)">进入</el-button>
+      <el-button type="text" @click="handEdit(scope.row)">修改</el-button>
     </template>
     </table-container>
-    <dialog-container
-      v-if="showModal"
-      :title="defaultData.id ? '修改' : '新增'"
-      @close="closeDialog"
-      @submit="addSubmit"
-    >
-      <form-container
-        ref="formContainer"
-        :formDesc="formDesc"
-        :defaultData="defaultData"
-        :row="1"
-        label-width="80px"
-        input-width="200px"
-      >
-      </form-container>
-    </dialog-container>
   </div>
 </template>
 
@@ -33,6 +18,7 @@
 import { defineComponent, ref, computed } from 'vue';
 import { ElMessage } from 'element-plus';
 import api from '@/api';
+import { mapMutations } from 'vuex'
 export default defineComponent({
   data() {
     return {
@@ -60,7 +46,7 @@ export default defineComponent({
           url: '/api/grave/list',
           data: {},
         },
-        action: ['edit', 'detail', 'delete'],
+        action: [],
       },
       defaultData:{},
       formDesc: [
@@ -83,17 +69,25 @@ export default defineComponent({
     this.getTableList()
   },
   methods:{
+    ...mapMutations(['setGraveInfo']),
     getTableList() {
       this.$refs.tableContainer.getTableList();
     },
+    handEdit(row){
+      this.$router.push({
+        name: 'graveDetail'
+      })
+    },
     handSelect(row){
-      console.log(row)
+      this.setGraveInfo(row)
+      this.$router.push({
+        name: 'home'
+      })
     },
     handleAdd(){
-      this.showModal = true;
-        // this.$router.push({
-        //     name: 'GenealogyDetail'
-        // })
+      this.$router.push({
+        name: 'graveDetail'
+      })
     },
     closeDialog() {
       this.defaultData = {};

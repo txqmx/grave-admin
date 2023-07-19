@@ -6,7 +6,11 @@
       </div>
       <div class="nav-title">返回</div>
     </div>
-    <div></div>
+    
+    <div>
+      <slot></slot>
+    </div>
+    
     <div >
       {{userInfo.name || userInfo.user_name}}
     </div>

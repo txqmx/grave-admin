@@ -34,7 +34,11 @@
           >
             修改
           </el-button>
-          <el-button type="text" @click="handleDelete(scope.row)">
+          <el-button
+            v-if="config.action.includes('delete')"
+            type="text"
+            @click="handleDelete(scope.row)"
+          >
             删除
           </el-button>
         </template>
@@ -76,7 +80,7 @@ export default defineComponent({
       dataSource.data = { ...dataSource.data, ...this.cacheParam };
       this.tableList = await api.axios(dataSource);
     },
-    handleAdd(){
+    handleAdd() {
       this.$emit('add');
     },
     handleDelete(row) {
@@ -93,13 +97,12 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.base-table{
+.base-table {
   background-color: #ffffff;
   padding: 20px;
   margin-bottom: 20px;
-  .table-action{
+  .table-action {
     margin-bottom: 16px;
   }
 }
-
 </style>

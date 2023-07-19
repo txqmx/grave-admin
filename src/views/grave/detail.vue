@@ -73,7 +73,7 @@ export default defineComponent({
   },
   created(){
     this.$store.commit('setBackRoute', {
-      name: 'Genealogy',
+      name: 'graveIndex',
     });
   },
   mounted() {

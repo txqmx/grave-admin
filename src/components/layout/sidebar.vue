@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar-container">
     <div class="logo">
-      <span>管理系统</span>
+      <span>{{graveInfo.name}}</span>
     </div>
     <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu
@@ -12,8 +12,20 @@
         text-color="#fff"
         router
       >
-        <el-menu-item index="/genealogy">
-          <template #title>家谱管理</template>
+        <el-menu-item index="/member">
+          <template #title>人员关系</template>
+        </el-menu-item>
+        <el-menu-item index="/page">
+          <template #title>页面配置</template>
+        </el-menu-item>
+        <el-menu-item index="/article">
+          <template #title>文章管理</template>
+        </el-menu-item>
+        <el-menu-item index="/photo">
+          <template #title>相册管理</template>
+        </el-menu-item>
+        <el-menu-item index="/media">
+          <template #title>音视频</template>
         </el-menu-item>
       </el-menu>
     </el-scrollbar>
@@ -21,11 +33,14 @@
 </template>
 <script lang="ts">
 import { computed, defineComponent, onMounted } from 'vue';
-
+import { mapState } from 'vuex'
 export default defineComponent({
   name: 'sidevar',
   created() {
     this.activeIndex = this.$route.path;
+  },
+  computed:{
+    ...mapState(['graveInfo'])
   },
   data() {
     return {

@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import Layout from '../components/layout/index.vue';
+import graveLayout from '../components/layout/graveLayout.vue';
 
 const routes = [
   {
@@ -9,12 +10,33 @@ const routes = [
     meta: {
       title: '首页',
     },
-    redirect: '/genealogy',
+    redirect: '/member',
     children: [
       {
-        name: 'Genealogy',
-        path: '/genealogy',
-        component: () => import('../views/genealogy/index.vue'),
+        name: 'member',
+        path: '/member',
+        component: () => import('../views/member/index.vue'),
+      }
+    ],
+  },
+  {
+    name: 'grave',
+    path: '/grave',
+    component: graveLayout,
+    meta: {
+      title: '墓碑管理',
+    },
+    redirect: '/grave',
+    children: [
+      {
+        name: 'graveIndex',
+        path: '/grave',
+        component: () => import('../views/grave/index.vue'),
+      },
+      {
+        name: 'graveDetail',
+        path: '/grave/detail',
+        component: () => import('../views/grave/detail.vue'),
       }
     ],
   },
@@ -33,23 +55,18 @@ const router = createRouter({
   routes,
 });
 
-const query = { family: 'huanglf' }; //这是全局需携带的参数
-
 router.beforeEach((to, from, next) => {
-  if (to.query.family) {
-    next();
-    return;
-  }
-  if (from.query.family) {
-    let toQuery = JSON.parse(JSON.stringify(to.query));
-    toQuery.family = from.query.family;
-    next({
-      path: to.path,
-      query: toQuery,
-    });
-  } else {
+  let token = window.localStorage.getItem('token')
+  let userInfo = window.localStorage.getItem('userInfo')
+  let graveInfo = window.localStorage.getItem('graveInfo')
+  if(!token && to.path !== '/login'){
+    next('/login');
+  } else if((!userInfo || !graveInfo) && to.path !== '/grave'){
+    next('/grave');
+  } else{
     next();
   }
+  
 });
 
 export default router;
