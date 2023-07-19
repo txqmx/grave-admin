@@ -14,12 +14,14 @@
 import { defineComponent, ref, computed } from 'vue';
 export default defineComponent({
   name: 'DialogContainer',
+  data(){
+    return {
+      showModal: true
+    }
+  },
   props: {
     title: {
       default: '',
-    },
-    showModal: {
-      default: false,
     },
   },
   methods: {

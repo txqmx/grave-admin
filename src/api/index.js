@@ -30,5 +30,7 @@ const axiosCus = {
 export default {
   axios: (dataSource) => axiosCus[dataSource.method](`${baseUrl}${dataSource.url}`, dataSource.data),
   login: (data) => axiosCus.post(`${baseUrl}/api/admin/login`, data),
-  getUserInfo: (data) => axiosCus.get(`${baseUrl}/api/admin/detail`, data)
+  getUserInfo: (data) => axiosCus.get(`${baseUrl}/api/admin/detail`, data),
+  getGraveList: (data) => axiosCus.get(`${baseUrl}/api/grave/list`, data),
+  createGrave: (data) => axiosCus.post(`${baseUrl}/api/grave/create`, data)
 };
