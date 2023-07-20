@@ -21,15 +21,9 @@ import { getUrlParam } from '@/utils/Url'
 export default defineComponent({
   data() {
     return {
+      detailId: this.$route.query.id,
       defaultData: {},
       formDesc: [
-        // {
-        //   type: 'InputEditor',
-        //   label: 'id',
-        //   field: 'id',
-        //   rules: { required: true },
-        //   attrs: { disabled: true },
-        // },
         {
           type: 'InputEditor',
           label: '名字',
@@ -42,57 +36,42 @@ export default defineComponent({
           field: 'code',
           rules: { required: true },
         },
-        {
-          type: 'InputEditor',
-          label: '密码',
-          field: 'password',
-        },
-        {
-          type: 'FileUploadEditor',
-          label: '封面',
-          field: 'cover',
-          attrs: {
-            type: 'img',
-            corpper: true,
-            folder: 'home',
-            corpperScale: [224, 288],
-          },
-        },
-        {
-          type: 'TextEditor',
-          label: '描述',
-          field: 'desc',
-        },
-        {
-          type: 'RichEditor',
-          label: '内容',
-          field: 'detail',
-        },
       ],
     };
   },
+
   created(){
     this.$store.commit('setBackRoute', {
       name: 'graveIndex',
     });
-  },
-  mounted() {
-    const familyCode = getUrlParam('family')
-    window.localStorage.setItem('family', familyCode)
-    this.getGenealogy();
+    if(this.detailId){
+      this.getDetailInfo()
+    }
   },
   methods: {
-    async getGenealogy() {
-      this.defaultData = await api.getGenealogy({ code: getUrlParam('family') });
+    async getDetailInfo(){
+      let res = await api.getGraveInfo({
+        id: this.detailId
+      });
+      this.defaultData = res
     },
     submit() {
       this.$refs.formContainer.submitForm().then(async (res) => {
-        await api.updateGenealogy(res);
-        this.getGenealogy();
+        let apiUrl = 'createGrave'
+        res.master = {
+          name: 'xxxx'
+        }
+        if(this.detailId){
+          apiUrl = 'updateGrave'
+        }
+        await api[apiUrl](res);
         ElMessage({
-          message: '修改成功',
+          message: '保存成功',
           type: 'success',
         });
+        this.$router.push({
+          name: 'graveIndex'
+        })
       });
     },
   },

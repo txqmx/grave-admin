@@ -61,7 +61,7 @@ router.beforeEach((to, from, next) => {
   let graveInfo = window.localStorage.getItem('graveInfo')
   if(!token && to.path !== '/login'){
     next('/login');
-  } else if((!userInfo || !graveInfo) && to.path !== '/grave'){
+  } else if((!userInfo || !graveInfo) && to.path !== '/grave' && to.path !== '/grave/detail' && to.path !== '/login'){
     next('/grave');
   } else{
     next();

@@ -32,5 +32,7 @@ export default {
   login: (data) => axiosCus.post(`${baseUrl}/api/admin/login`, data),
   getUserInfo: (data) => axiosCus.get(`${baseUrl}/api/admin/detail`, data),
   getGraveList: (data) => axiosCus.get(`${baseUrl}/api/grave/list`, data),
-  createGrave: (data) => axiosCus.post(`${baseUrl}/api/grave/create`, data)
+  getGraveInfo: (data) => axiosCus.get(`${baseUrl}/api/grave/detail`, data),
+  createGrave: (data) => axiosCus.post(`${baseUrl}/api/grave/createGrave`, data),
+  updateGrave: (data) => axiosCus.post(`${baseUrl}/api/grave/update`, data),
 };

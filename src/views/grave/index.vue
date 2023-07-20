@@ -8,7 +8,7 @@
     >
     <template #action="scope">
       <el-button type="text" @click="handSelect(scope.row)">进入</el-button>
-      <el-button type="text" @click="handEdit(scope.row)">修改</el-button>
+      <el-button type="text" @click="handEdit(scope.row)">编辑</el-button>
     </template>
     </table-container>
   </div>
@@ -75,7 +75,10 @@ export default defineComponent({
     },
     handEdit(row){
       this.$router.push({
-        name: 'graveDetail'
+        name: 'graveDetail',
+        query:{
+          id: row.id
+        }
       })
     },
     handSelect(row){
@@ -88,27 +91,7 @@ export default defineComponent({
       this.$router.push({
         name: 'graveDetail'
       })
-    },
-    closeDialog() {
-      this.defaultData = {};
-      this.showModal = false;
-    },
-    addSubmit() {
-      this.$refs.formContainer.submitForm().then(async (res) => {
-        if (res.id) {
-          await api.updateResourceType(res);
-        } else {
-          await api.createGrave(res);
-        }
-
-        ElMessage({
-          message: res.id ? '修改成功' : '新增成功',
-          type: 'success',
-        });
-        this.getTableList();
-        this.showModal = false;
-      });
-    },
+    }
   }
 });
 </script>

@@ -4,9 +4,14 @@ import router from '@/router'
 
 export function resSuccess (response) {
     return new Promise((resolve, reject) => {
-      if(response.data.code){
+      if(response.data.code ===0){
         resolve(response.data.data)
       } else {
+        ElMessage({
+          message: response.data.message  || msg,
+          type: 'error',
+          duration: 3 * 1000
+        })
         reject(response.data)
       }
     })
@@ -17,7 +22,7 @@ export function resError (error) {
   let msg = '连接服务器失败, 检查网络'
   if(response && response.data){
     ElMessage({
-      message: response.data.message || response.data.errMsg || msg,
+      message: response.data.message  || msg,
       type: 'error',
       duration: 3 * 1000
     })

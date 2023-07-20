@@ -17,7 +17,9 @@ export default defineComponent({
     name: 'layout',
     components: { Sidebar, Navbar, AppMain },
     async created(){
-      await this.getUserInfo()
+      if(!this.userInfo){
+        await this.getUserInfo()
+      }
     },
     computed:{
       ...mapState(['userInfo'])
