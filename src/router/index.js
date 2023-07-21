@@ -22,6 +22,21 @@ const routes = [
         name: 'member',
         path: '/member',
         component: () => import('../views/member/index.vue'),
+      },
+      {
+        name: 'memberDetail',
+        path: '/member/detail',
+        component: () => import('../views/member/detail.vue'),
+      },
+      {
+        name: 'page',
+        path: '/page',
+        component: () => import('../views/page/index.vue'),
+      },
+      {
+        name: 'pageDetail',
+        path: '/page/detail',
+        component: () => import('../views/page/detail.vue'),
       }
     ],
   },

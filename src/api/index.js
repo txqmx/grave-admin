@@ -31,8 +31,15 @@ export default {
   axios: (dataSource) => axiosCus[dataSource.method](`${baseUrl}${dataSource.url}`, dataSource.data),
   login: (data) => axiosCus.post(`${baseUrl}/api/admin/login`, data),
   getUserInfo: (data) => axiosCus.get(`${baseUrl}/api/admin/detail`, data),
+
+  // 墓碑管理
   getGraveList: (data) => axiosCus.get(`${baseUrl}/api/grave/list`, data),
   getGraveInfo: (data) => axiosCus.get(`${baseUrl}/api/grave/detail`, data),
   createGrave: (data) => axiosCus.post(`${baseUrl}/api/grave/create`, data),
   updateGrave: (data) => axiosCus.post(`${baseUrl}/api/grave/update`, data),
+
+  // 人物关系
+  getMemberTree: (data) => axiosCus.get(`${baseUrl}/api/member/treeList`, data),
+  createMember: (data) => axiosCus.post(`${baseUrl}/api/member/create`, data),
+  createMate: (data) => axiosCus.post(`${baseUrl}/api/mate/create`, data),
 };

@@ -7,18 +7,17 @@
       @add="handleAdd"
     >
     <template #action="scope">
-      <el-button type="text" @click="handEdit(scope.row)">编辑</el-button>
-      <el-button type="text" @click="handSelect(scope.row)">详情</el-button>
+      <el-button type="text" @click="handSelect(scope.row)">进入</el-button>
+      <el-button type="text" @click="handEdit(scope.row)">修改</el-button>
     </template>
     </table-container>
     <dialog-container
-      v-model="showModal"
-      :title="defaultData.id ? '编辑' : '新增'"
-      @close="close"
-      @submit="submit"
+      v-if="showModal"
+      :title="defaultData.id ? '修改' : '新增'"
+      @close="closeDialog"
+      @submit="addSubmit"
     >
       <form-container
-        v-if="showModal"
         ref="formContainer"
         :formDesc="formDesc"
         :defaultData="defaultData"
@@ -26,7 +25,6 @@
         label-width="80px"
         input-width="200px"
       >
-
       </form-container>
     </dialog-container>
   </div>
@@ -36,7 +34,6 @@
 import { defineComponent, ref, computed } from 'vue';
 import { ElMessage } from 'element-plus';
 import api from '@/api';
-import { mapMutations } from 'vuex'
 export default defineComponent({
   data() {
     return {
@@ -73,63 +70,55 @@ export default defineComponent({
           label: '编码',
           field: 'code',
           rules: { required: true },
-          attrs:{
-            disabled: (row)=>{return !!row.id}
-          }
         },
         {
           type: 'InputEditor',
           label: '名字',
           field: 'name',
           rules: { required: true },
-        },
-        {
-          type: 'InputEditor',
-          label: '密码',
-          field: 'password',
-        },
+        }
       ],
     };
   },
   mounted(){
-    this.setGraveInfo('')
     this.getTableList()
   },
   methods:{
-    ...mapMutations(['setGraveInfo']),
     getTableList() {
       this.$refs.tableContainer.getTableList();
     },
     handEdit(row){
-      this.defaultData = {...row}
-      this.showModal = true
-    },
-    handSelect(row){
-      this.setGraveInfo(row)
       this.$router.push({
-        name: 'home'
+        name: 'graveDetail'
       })
     },
+    handSelect(row){
+      console.log(row)
+    },
     handleAdd(){
-      this.showModal = true
+      this.showModal = true;
+        // this.$router.push({
+        //     name: 'GenealogyDetail'
+        // })
     },
-    close(){
-      this.showModal = false
-      this.defaultData = {}
+    closeDialog() {
+      this.defaultData = {};
+      this.showModal = false;
     },
-    submit() {
+    addSubmit() {
       this.$refs.formContainer.submitForm().then(async (res) => {
-        let apiUrl = 'createGrave'
-        if(this.defaultData.id){
-          apiUrl = 'updateGrave'
+        if (res.id) {
+          await api.updateResourceType(res);
+        } else {
+          await api.createGrave(res);
         }
-        await api[apiUrl](res);
+
         ElMessage({
-          message: '保存成功',
+          message: res.id ? '修改成功' : '新增成功',
           type: 'success',
         });
-        this.close()
-        this.getTableList()
+        this.getTableList();
+        this.showModal = false;
       });
     },
   }
