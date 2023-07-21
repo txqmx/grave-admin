@@ -2,7 +2,14 @@
     <div class="app-wrapper">
       <Sidebar></Sidebar>
       <div class="main-container">
-        <Navbar></Navbar>
+        <Navbar>
+          <template v-slot:title> {{graveInfo?.name}} </template>
+          <template v-slot:action>
+          <div class="close">
+            <el-icon @click="exit"><SwitchButton /></el-icon>
+          </div>
+        </template>
+        </Navbar>
         <app-main></app-main>
       </div>
     </div>
@@ -10,20 +17,24 @@
 <script lang="ts">
 import Sidebar from './sidebar.vue';
 import { computed, defineComponent, onMounted } from 'vue'
+import { SwitchButton } from '@element-plus/icons-vue';
 import Navbar from './navbar.vue';
 import AppMain from './appMain.vue';
-import { mapState,mapActions } from 'vuex'
+import { mapState,mapMutations } from 'vuex'
 export default defineComponent({
     name: 'layout',
-    components: { Sidebar, Navbar, AppMain },
-    async created(){
-      // await this.getUserInfo()
-    },
+    components: { Sidebar, Navbar, AppMain,SwitchButton },
     computed:{
-      ...mapState(['userInfo'])
+      ...mapState(['graveInfo'])
     },
     methods:{
-      ...mapActions(['getUserInfo']),
+      ...mapMutations(['setGraveInfo']),
+      exit(){
+        this.setGraveInfo('')
+        this.$router.replace({
+        name: 'grave'
+      })
+      }
     }
 
 
@@ -47,6 +58,12 @@ export default defineComponent({
     height: 100%;
     .main-header{
       height: 50px;
+    }
+    .close {
+      display: flex;
+      cursor: pointer;
+      margin-left: 20px;
+      font-size: 16px;
     }
   }
 }

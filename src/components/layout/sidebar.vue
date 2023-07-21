@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar-container">
     <div class="logo">
-      <span>{{graveInfo.name}}</span>
+      <span>xx管理系统</span>
     </div>
     <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu
@@ -12,20 +12,14 @@
         text-color="#fff"
         router
       >
+        <el-menu-item index="/grave/detail">
+          <template #title>基本信息</template>
+        </el-menu-item>
         <el-menu-item index="/member">
-          <template #title>人员关系</template>
+          <template #title>人物关系</template>
         </el-menu-item>
         <el-menu-item index="/page">
           <template #title>页面配置</template>
-        </el-menu-item>
-        <el-menu-item index="/article">
-          <template #title>文章管理</template>
-        </el-menu-item>
-        <el-menu-item index="/photo">
-          <template #title>相册管理</template>
-        </el-menu-item>
-        <el-menu-item index="/media">
-          <template #title>音视频</template>
         </el-menu-item>
       </el-menu>
     </el-scrollbar>
@@ -46,7 +40,7 @@ export default defineComponent({
     return {
       showLogo: true,
       isCollapse: false,
-      activeIndex: '/genealogy',
+      activeIndex: '/grave/detail',
     };
   },
 });

@@ -15,11 +15,20 @@ const mutations = {
     },
     setUserInfo(state, val){
         state.userInfo = val
-        window.localStorage.setItem('userInfo',JSON.stringify(val))
+        if(val){
+            window.localStorage.setItem('userInfo',JSON.stringify(val))
+        } else {
+            window.localStorage.removeItem('userInfo')
+        }
     },
     setGraveInfo(state, val){
         state.graveInfo = val
-        window.localStorage.setItem('graveInfo',JSON.stringify(val))
+        if(val){
+            window.localStorage.setItem('graveInfo',JSON.stringify(val))
+        } else {
+            window.localStorage.removeItem('graveInfo')
+        }
+        
     }
 }
 

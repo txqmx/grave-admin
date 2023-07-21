@@ -1,35 +1,35 @@
 <template>
-    <div v-if="userInfo" class="app-wrapper">
-      <!-- <Sidebar></Sidebar> -->
-      <div class="main-container">
-        <Navbar>xx管理系统</Navbar>
-        <app-main></app-main>
-      </div>
+  <div v-if="userInfo" class="app-wrapper">
+    <!-- <Sidebar></Sidebar> -->
+    <div class="main-container">
+      <Navbar>
+        <template v-slot:title> xx管理系统 </template>  
+      </Navbar>
+      <app-main></app-main>
     </div>
+  </div>
 </template>
 <script lang="ts">
 import Sidebar from './sidebar.vue';
-import { computed, defineComponent, onMounted } from 'vue'
+import { computed, defineComponent, onMounted } from 'vue';
 import Navbar from './navbar.vue';
 import AppMain from './appMain.vue';
-import { mapState,mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex';
 export default defineComponent({
-    name: 'layout',
-    components: { Sidebar, Navbar, AppMain },
-    async created(){
-      if(!this.userInfo){
-        await this.getUserInfo()
-      }
-    },
-    computed:{
-      ...mapState(['userInfo'])
-    },
-    methods:{
-      ...mapActions(['getUserInfo']),
+  name: 'layout',
+  components: { Sidebar, Navbar, AppMain },
+  async created() {
+    if (!this.userInfo) {
+      await this.getUserInfo();
     }
-
-
-})
+  },
+  computed: {
+    ...mapState(['userInfo']),
+  },
+  methods: {
+    ...mapActions(['getUserInfo']),
+  },
+});
 </script>
 
 <style lang="scss" scoped>
@@ -41,13 +41,13 @@ export default defineComponent({
   height: 100%;
   width: 100%;
   overflow: hidden;
-  .main-container{
+  .main-container {
     transition: margin-left 0.28s;
     // padding-left: 150px;
     box-sizing: border-box;
     width: 100%;
     height: 100%;
-    .main-header{
+    .main-header {
       height: 50px;
     }
   }

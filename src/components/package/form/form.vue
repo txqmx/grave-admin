@@ -34,6 +34,7 @@ export default defineComponent({
   name: 'FormContainer',
   data() {
     return {
+      gridFormDesc: [],
       formData: {},
       rules: {},
     };
@@ -46,8 +47,8 @@ export default defineComponent({
     };
   },
   created() {
-    // this.$parent.$parent.$on('resetForm', this.resetForm);
     this.initData();
+    this.initFormDesc()
   },
   props: {
     inputWidth: {
@@ -87,20 +88,71 @@ export default defineComponent({
     requestFn: Function,
   },
   computed: {
-    gridFormDesc() {
+    // gridFormDesc() {
+    //   let row = [];
+    //   let col = [];
+    //   let a = ['TextEditor', 'FileUploadEditor', 'RichEditor'];
+    //   for (var i = 0; i < this.formDesc.length; i++) {
+    //     let item = this.formDesc[i]
+    //     if(item.attrs){
+    //       for(let o in item.attrs){
+    //         if(typeof item.attrs[o] === 'function'){
+    //           item.attrs[o] = item.attrs[o](this.defaultData)
+    //         }
+    //       }
+    //     }
+    //     if (a.includes(item.type)) {
+    //       item.row = 1;
+    //       if (col.length) {
+    //         row.push([...col]);
+    //         col = [];
+    //       }
+    //       row.push([item]);
+    //     } else {
+    //       col.push(item);
+    //       if (col.length === this.row) {
+    //         row.push([...col]);
+    //         col = [];
+    //       }
+    //     }
+    //   }
+    //   if (col.length) {
+    //     row.push([...col]);
+    //   }
+    //   return row;
+    // },
+  },
+  watch: {
+    defaultData() {
+      this.initDefaultData();
+    },
+  },
+  methods: {
+    initFormDesc(){
       let row = [];
       let col = [];
       let a = ['TextEditor', 'FileUploadEditor', 'RichEditor'];
       for (var i = 0; i < this.formDesc.length; i++) {
-        if (a.includes(this.formDesc[i].type)) {
-          this.formDesc[i].row = 1;
+        let item = {...this.formDesc[i]}
+        if(item.attrs){
+          let copyAttrs = {}
+          for(let o in item.attrs){
+            copyAttrs[o] = item.attrs[o]
+            if(typeof item.attrs[o] === 'function'){
+              copyAttrs[o] = item.attrs[o](this.defaultData)
+            }
+          }
+          item.attrs = copyAttrs
+        }
+        if (a.includes(item.type)) {
+          item.row = 1;
           if (col.length) {
             row.push([...col]);
             col = [];
           }
-          row.push([this.formDesc[i]]);
+          row.push([item]);
         } else {
-          col.push(this.formDesc[i]);
+          col.push(item);
           if (col.length === this.row) {
             row.push([...col]);
             col = [];
@@ -110,15 +162,9 @@ export default defineComponent({
       if (col.length) {
         row.push([...col]);
       }
-      return row;
+      this.gridFormDesc = row
     },
-  },
-  watch: {
-    defaultData() {
-      this.initDefaultData();
-    },
-  },
-  methods: {
+
     initData() {
       let formData = {};
       let rules = {};
@@ -134,12 +180,14 @@ export default defineComponent({
       this.formData = formData;
       this.rules = rules;
     },
+
     initDefaultData() {
       this.$refs['form'].resetFields();
       for (let i in this.formData) {
         this.formData[i] = this.defaultData[i];
       }
     },
+
     initRules(formItem) {
       let formRules = [];
       if (formItem.rules) {
@@ -156,6 +204,7 @@ export default defineComponent({
         return null;
       }
     },
+
     initOptions(formItem) {
       let options = formItem.options;
       if (options instanceof Array) {

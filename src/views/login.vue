@@ -47,7 +47,7 @@ export default {
           let res = await api.login(params)
           window.localStorage.setItem('token', res.token)
           this.$router.push({
-            path: '/'
+            name: 'graveIndex'
           })
         } 
       })

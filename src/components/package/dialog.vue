@@ -14,15 +14,23 @@
 import { defineComponent, ref, computed } from 'vue';
 export default defineComponent({
   name: 'DialogContainer',
-  data(){
-    return {
-      showModal: true
+  computed:{
+    showModal:{
+      get(){
+        return this.value
+      },
+      set(val){
+        this.$emit('input', val)
+      }
     }
   },
   props: {
     title: {
       default: '',
     },
+    value: {
+      default: false
+    }
   },
   methods: {
     close() {

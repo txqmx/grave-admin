@@ -7,10 +7,28 @@
       @add="handleAdd"
     >
     <template #action="scope">
-      <el-button type="text" @click="handSelect(scope.row)">进入</el-button>
       <el-button type="text" @click="handEdit(scope.row)">编辑</el-button>
+      <el-button type="text" @click="handSelect(scope.row)">详情</el-button>
     </template>
     </table-container>
+    <dialog-container
+      v-model="showModal"
+      :title="defaultData.id ? '编辑' : '新增'"
+      @close="closeDialog"
+      @submit="addSubmit"
+    >
+      <form-container
+        v-if="showModal"
+        ref="formContainer"
+        :formDesc="formDesc"
+        :defaultData="defaultData"
+        :row="1"
+        label-width="80px"
+        input-width="200px"
+      >
+
+      </form-container>
+    </dialog-container>
   </div>
 </template>
 
@@ -55,17 +73,26 @@ export default defineComponent({
           label: '编码',
           field: 'code',
           rules: { required: true },
+          attrs:{
+            disabled: (row)=>{return !!row.id}
+          }
         },
         {
           type: 'InputEditor',
           label: '名字',
           field: 'name',
           rules: { required: true },
-        }
+        },
+        {
+          type: 'InputEditor',
+          label: '密码',
+          field: 'password',
+        },
       ],
     };
   },
   mounted(){
+    this.setGraveInfo('')
     this.getTableList()
   },
   methods:{
@@ -74,12 +101,8 @@ export default defineComponent({
       this.$refs.tableContainer.getTableList();
     },
     handEdit(row){
-      this.$router.push({
-        name: 'graveDetail',
-        query:{
-          id: row.id
-        }
-      })
+      this.defaultData = {...row}
+      this.showModal = true
     },
     handSelect(row){
       this.setGraveInfo(row)
@@ -88,10 +111,27 @@ export default defineComponent({
       })
     },
     handleAdd(){
-      this.$router.push({
-        name: 'graveDetail'
-      })
-    }
+      this.showModal = true
+    },
+    closeDialog(){
+      this.showModal = false
+      this.defaultData = {}
+    },
+    addSubmit() {
+      this.$refs.formContainer.submitForm().then(async (res) => {
+        let apiUrl = 'createGrave'
+        if(this.defaultData.id){
+          apiUrl = 'updateGrave'
+        }
+        await api[apiUrl](res);
+        ElMessage({
+          message: '保存成功',
+          type: 'success',
+        });
+        this.closeDialog()
+        this.getTableList()
+      });
+    },
   }
 });
 </script>

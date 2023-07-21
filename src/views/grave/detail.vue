@@ -36,14 +36,31 @@ export default defineComponent({
           field: 'code',
           rules: { required: true },
         },
+        {
+          type: 'InputEditor',
+          label: '密码',
+          field: 'password',
+        },
+        {
+          type: 'InputEditor',
+          label: '封面',
+          field: 'cover',
+        },
+        {
+          type: 'InputEditor',
+          label: '地址',
+          field: 'address',
+        },
+        {
+          type: 'InputEditor',
+          label: '简介',
+          field: 'desc',
+        },
       ],
     };
   },
 
   created(){
-    this.$store.commit('setBackRoute', {
-      name: 'graveIndex',
-    });
     if(this.detailId){
       this.getDetailInfo()
     }
