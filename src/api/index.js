@@ -41,5 +41,6 @@ export default {
   // 人物关系
   getMemberTree: (data) => axiosCus.get(`${baseUrl}/api/member/treeList`, data),
   createMember: (data) => axiosCus.post(`${baseUrl}/api/member/create`, data),
+  deleteMember: (data) => axiosCus.post(`${baseUrl}/api/member/delete`, data),
   createMate: (data) => axiosCus.post(`${baseUrl}/api/mate/create`, data),
 };

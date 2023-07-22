@@ -24,8 +24,10 @@ const mutations = {
     setGraveInfo(state, val){
         state.graveInfo = val
         if(val){
+            window.localStorage.setItem('grave_id', val.id)
             window.localStorage.setItem('graveInfo',JSON.stringify(val))
         } else {
+            window.localStorage.removeItem('grave_id')
             window.localStorage.removeItem('graveInfo')
         }
         

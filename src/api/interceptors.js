@@ -12,6 +12,11 @@ export function resSuccess (response) {
           type: 'error',
           duration: 3 * 1000
         })
+        if(response.data.code === 2){
+          router.replace({
+            name: 'grave'
+          })
+        }
         reject(response.data)
       }
     })
@@ -37,5 +42,6 @@ export function resError (error) {
 
 export function reqSuccess (config) {
   config.headers.token = localStorage.getItem('token') 
+  config.headers.grave_id = localStorage.getItem('grave_id') 
   return config
 }

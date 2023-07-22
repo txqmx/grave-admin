@@ -75,14 +75,14 @@ router.beforeEach((to, from, next) => {
   let token = window.localStorage.getItem('token')
   let userInfo = window.localStorage.getItem('userInfo')
   let graveInfo = window.localStorage.getItem('graveInfo')
-  if(!token && to.path !== '/login'){
+  if((!token || !userInfo) && to.path !== '/login'){
     ElMessage({
       message: '请登录',
       type: 'error',
       duration: 3 * 1000
     })
     next('/login');
-  } else if((!userInfo || !graveInfo) && to.path !== '/grave'  && to.path !== '/login'){
+  } else if(!graveInfo && to.path !== '/grave'  && to.path !== '/login'){
     ElMessage({
       message: '请选择',
       type: 'error',

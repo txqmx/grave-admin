@@ -8,43 +8,36 @@
       input-width="200px"
     >
     </form-container>
-    <el-button @click="submit">提交</el-button>
+    <div class="footer_container">
+      <el-button type="primary"  @click="submit">提 交</el-button>
+    </div>
   </div>
 </template>
 
 <script>
 import api from '@/api';
 import { defineComponent, ref, computed } from 'vue';
+import { mapState, mapMutations } from 'vuex';
 import { ElMessage } from 'element-plus';
 import { getUrlParam } from '@/utils/Url'
 
 export default defineComponent({
   data() {
     return {
-      detailId: this.$route.query.id,
+      detailId: '',
       defaultData: {},
       formDesc: [
-        {
-          type: 'InputEditor',
-          label: '名字',
-          field: 'name',
-          rules: { required: true },
-        },
-        {
-          type: 'InputEditor',
-          label: '编码',
-          field: 'code',
-          rules: { required: true },
-        },
-        {
-          type: 'InputEditor',
-          label: '密码',
-          field: 'password',
-        },
-        {
-          type: 'InputEditor',
+      {
+          type: 'FileUploadEditor',
           label: '封面',
           field: 'cover',
+          attrs: {
+            type: 'img',
+            corpper: true,
+            corpperScale: [300, 150],
+            multiple: false,
+            folder: 'avatar',
+          },
         },
         {
           type: 'InputEditor',
@@ -52,18 +45,25 @@ export default defineComponent({
           field: 'address',
         },
         {
-          type: 'InputEditor',
+          type: 'TextEditor',
           label: '简介',
           field: 'desc',
+        },
+        {
+          type: 'RichEditor',
+          label: '详情',
+          field: 'detail',
         },
       ],
     };
   },
 
   created(){
-    if(this.detailId){
-      this.getDetailInfo()
-    }
+    this.detailId = this.graveInfo.id
+    this.getDetailInfo()
+  },
+  computed: {
+    ...mapState(['graveInfo'])
   },
   methods: {
     async getDetailInfo(){
@@ -74,30 +74,25 @@ export default defineComponent({
     },
     submit() {
       this.$refs.formContainer.submitForm().then(async (res) => {
-        let apiUrl = 'createGrave'
-        res.master = {
-          name: 'xxxx'
-        }
-        if(this.detailId){
-          apiUrl = 'updateGrave'
-        }
-        await api[apiUrl](res);
+        await api.updateGrave(res);
         ElMessage({
           message: '保存成功',
           type: 'success',
         });
-        this.$router.push({
-          name: 'graveIndex'
-        })
+        this.getDetailInfo()
       });
     },
   },
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .family-container {
   padding: 20px;
   background: #ffffff;
+  .footer_container{
+    // position: fixed;
+    padding: 0 60px;
+  }
 }
 </style>

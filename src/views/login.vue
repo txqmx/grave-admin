@@ -19,6 +19,7 @@
 
 <script>
 import api from '@/api'
+import { mapActions } from 'vuex';
 export default {
   name: 'login',
   data(){
@@ -38,6 +39,8 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['getUserInfo']),
+    // 登录
     login(){
       this.$refs.userForm.validate(async (valid) => {
         if(valid){
@@ -46,6 +49,7 @@ export default {
           }
           let res = await api.login(params)
           window.localStorage.setItem('token', res.token)
+          await this.getUserInfo()
           this.$router.push({
             name: 'graveIndex'
           })

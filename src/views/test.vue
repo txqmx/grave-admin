@@ -13,7 +13,9 @@
       input-width="200px"
     >
     </form-container>
-    <el-button @click="submit">提交</el-button>
+    <div class="foot_container">
+      <el-button @click="submit">提交</el-button>
+    </div>
   </div>
 </template>
 

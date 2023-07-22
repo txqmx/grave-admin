@@ -1,11 +1,11 @@
 <template>
   <div class="family-create-container">
     <div class="create-root">
-      <el-button :disabled="!!treeData.length" @click="handleAdd('root', currentRow)">增加父节点</el-button>
+      <el-button @click="handleAdd('root', currentRow)">增加父节点</el-button>
       <el-button :disabled="!currentRow.id" @click="handleAdd('child', currentRow)">添加后代</el-button>
       <el-button :disabled="!currentRow.id || currentRow.mateInfo" @click="handleAdd('mate', currentRow)">添加配偶
       </el-button>
-      <el-button :disabled="!currentRow.id" @click="remove(currentRow)">删除</el-button>
+      <!-- <el-button :disabled="!currentRow.id" @click="remove(currentRow)">删除</el-button> -->
     </div>
     <div class="family-content">
       <el-tree class="tree" 
@@ -23,9 +23,9 @@
                 <Edit />
               </el-icon>
             </span>
-            <span v-if="data.mateInfo" class="node-name">
-              {{ data.mateInfo && data.mateInfo.name }}
-              <el-icon @click="handleEdit(data.mateInfo)">
+            <span v-if="data.mate" class="node-name">
+              {{ data.mate && data.mate.name }}
+              <el-icon @click="handleEdit(data.mate)">
                 <Edit />
               </el-icon>
             </span>
@@ -162,7 +162,14 @@ export default defineComponent({
         this.getTreeData()
       });
     },
-    remove() { },
+    async remove(row) { 
+      await api.deleteMember({id: row.id})
+      ElMessage({
+        message: '删除成功',
+        type: 'success',
+      });
+      this.getTreeData()
+    },
   },
   beforeRouteEnter(to, from, next) {
     next((e) => {

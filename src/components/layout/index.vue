@@ -3,7 +3,10 @@
       <Sidebar></Sidebar>
       <div class="main-container">
         <Navbar>
-          <template v-slot:title> {{graveInfo?.name}} </template>
+          <template v-slot:title> 
+            <span class="nav_msg">名字：{{graveInfo?.name}}</span>
+            <span class="nav_msg">编码：{{graveInfo?.code}}</span>
+          </template>
           <template v-slot:action>
           <div class="close">
             <el-icon @click="exit"><SwitchButton /></el-icon>
@@ -58,6 +61,11 @@ export default defineComponent({
     height: 100%;
     .main-header{
       height: 50px;
+    }
+    .nav_msg{
+      font-size: 16px;
+      color: #606266;
+      margin-right: 30px;
     }
     .close {
       display: flex;

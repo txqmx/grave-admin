@@ -18,16 +18,8 @@ import { mapState, mapActions } from 'vuex';
 export default defineComponent({
   name: 'layout',
   components: { Sidebar, Navbar, AppMain },
-  async created() {
-    if (!this.userInfo) {
-      await this.getUserInfo();
-    }
-  },
   computed: {
     ...mapState(['userInfo']),
-  },
-  methods: {
-    ...mapActions(['getUserInfo']),
   },
 });
 </script>
