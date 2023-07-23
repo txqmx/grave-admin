@@ -10,8 +10,8 @@
         <el-button type="primary" @click="handleAdd">新增</el-button>
       </template>
     <template #columnAction="scope">
+      <el-button type="text" @click="handSelect(scope.row)">进入详情</el-button>
       <el-button type="text" @click="handEdit(scope.row)">编辑</el-button>
-      <el-button type="text" @click="handSelect(scope.row)">详情</el-button>
     </template>
     </table-container>
     <dialog-container
