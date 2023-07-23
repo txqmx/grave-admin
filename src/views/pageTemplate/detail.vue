@@ -41,7 +41,7 @@ export default defineComponent({
     async getDetailInfo() {
       let dataSource = {
         method: 'get',
-        url: '/api/page/detail',
+        url: '/api/pageTemplate/detail',
       }
       let params = {
         id: this.detailId
@@ -54,11 +54,11 @@ export default defineComponent({
       this.$refs.formContainer.submitForm().then(async (res) => {
         let dataSource = {
           method: 'post',
-          url: '/api/page/create',
+          url: '/api/pageTemplate/create',
         }
         let params = {...res}
         if(this.defaultData.id){
-          dataSource.url = '/api/page/update'
+          dataSource.url = '/api/pageTemplate/update'
           params.id = this.defaultData.id
         }
         let item = await api.axios(dataSource,params);

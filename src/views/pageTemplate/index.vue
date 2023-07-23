@@ -35,7 +35,7 @@ export default defineComponent({
       tableConfig: {
         dataSource: {
           method: 'get',
-          url: '/api/page/list',
+          url: '/api/pageTemplate/list',
           data: {},
         },
         action: [
@@ -49,7 +49,7 @@ export default defineComponent({
             name: '删除',
             actionApi: {
               method: 'post',
-              url: '/api/page/delete'
+              url: '/api/pageTemplate/delete'
             },
           },
         ],
@@ -68,7 +68,7 @@ export default defineComponent({
     // 编辑
     handleEdit(row) {
       this.$router.push({
-        name: 'pageDetail',
+        name: 'pageTemplateDetail',
         query:{ id: row.id}
       })
     },
@@ -76,7 +76,7 @@ export default defineComponent({
     // 新增
     handleAdd() {
       this.$router.push({
-        name: 'pageDetail',
+        name: 'pageTemplateDetail',
       })
     }
   },

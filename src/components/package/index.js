@@ -8,6 +8,7 @@ import RichEditor from './form/richText.vue'
 import TableContainer from './table.vue'
 import SearchContainer from './search.vue'
 import DialogContainer from './dialog.vue'
+import DetailContainer from './detail.vue'
 
 
 
@@ -21,7 +22,8 @@ const components = [
     RichEditor,
     TableContainer,
     SearchContainer,
-    DialogContainer
+    DialogContainer,
+    DetailContainer
 ]
 
 const install = (Vue) => {

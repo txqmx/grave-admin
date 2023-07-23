@@ -4,19 +4,14 @@
       ref="tableContainer"
       :tableDesc="tableDesc"
       :config="tableConfig"
-      @add="handleAdd"
     >
-    <template #tableAction>
+      <template #tableAction>
         <el-button type="primary" @click="handleAdd">新增</el-button>
       </template>
-    <template #columnAction="scope">
-      <el-button type="text" @click="handEdit(scope.row)">编辑</el-button>
-      <el-button type="text" @click="handSelect(scope.row)">详情</el-button>
-    </template>
     </table-container>
     <dialog-container
       v-model="showModal"
-      :title="defaultData.id ? '编辑' : '新增'"
+      :title="defaultData.id ? '修改' : '新增'"
       @close="close"
       @submit="submit"
     >
@@ -29,26 +24,20 @@
         label-width="80px"
         input-width="200px"
       >
-
       </form-container>
     </dialog-container>
   </div>
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
 import { ElMessage } from 'element-plus';
 import api from '@/api';
-import { mapMutations } from 'vuex'
 export default defineComponent({
   data() {
     return {
       showModal: false,
       tableDesc: [
-        {
-          prop: 'id',
-          label: 'id',
-        },
         {
           prop: 'name',
           label: '名字',
@@ -57,77 +46,92 @@ export default defineComponent({
           },
         },
         {
-          prop: 'code',
-          label: '编码',
+          prop: 'user_name',
+          label: '用户名',
+        },
+        {
+          prop: 'remark',
+          label: '备注',
         },
       ],
       tableConfig: {
         dataSource: {
           method: 'get',
-          url: '/api/grave/list',
+          url: '/api/admin/list',
           data: {},
         },
-        action: [],
+        action: [
+          {
+            type: 'edit',
+            name: '编辑',
+            actionFn: this.handleEdit,
+          },
+          {
+            type: 'delete',
+            name: '删除',
+            actionApi: {
+              method: 'post',
+              url: '/api/admin/delete'
+            },
+          },
+        ],
       },
-      defaultData:{},
       formDesc: [
         {
           type: 'InputEditor',
-          label: '编码',
-          field: 'code',
-          rules: { required: true },
-          attrs:{
-            disabled: (row)=>{return !!row.id}
-          }
-        },
-        {
-          type: 'InputEditor',
-          label: '名字',
-          field: 'name',
+          label: '用户名',
+          field: 'user_name',
           rules: { required: true },
         },
         {
           type: 'InputEditor',
           label: '密码',
           field: 'password',
+          rules: { required: true },
         },
+        {
+          type: 'InputEditor',
+          label: '别名',
+          field: 'name',
+        },
+        
       ],
+      defaultData: {},
     };
   },
-  mounted(){
-    this.setGraveInfo('')
-    this.getTableList()
+  mounted() {
+    this.getTableList();
   },
-  methods:{
-    ...mapMutations(['setGraveInfo']),
+  methods: {
     // 获取列表
     getTableList() {
       this.$refs.tableContainer.getTableList();
     },
+
     // 编辑
-    handEdit(row){
+    handleEdit(row) {
       this.defaultData = {...row}
       this.showModal = true
     },
-    // 选择
-    handSelect(row){
-      this.setGraveInfo(row)
-      this.$router.push({
-        name: 'home'
-      })
-    },
+
     // 新增
-    handleAdd(){
-      this.showModal = true
+    handleAdd() {
+      this.showModal = true;
     },
-    // 提交
+    
+    // 保存
     submit() {
       this.$refs.formContainer.submitForm().then(async (res) => {
-        let apiUrl = 'createGrave'
-        if(this.defaultData.id){
-          apiUrl = 'updateGrave'
+        let dataSource = {
+          method: 'post',
+          url: '/api/admin/create',
         }
-        await api[apiUrl](res);
+        let params = {...res}
+        if(this.defaultData.id){
+          dataSource.url = '/api/admin/update'
+          params.id = this.defaultData.id
+        }
+        await api.axios(dataSource,params);
         ElMessage({
           message: '保存成功',
           type: 'success',
@@ -136,13 +140,13 @@ export default defineComponent({
         this.getTableList()
       });
     },
+
     // 关闭弹窗
     close(){
       this.showModal = false
       this.defaultData = {}
     },
-    
-  }
+  },
 });
 </script>
 

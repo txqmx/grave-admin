@@ -1,46 +1,27 @@
 <template>
   <div class="base-table">
     <div class="table-action">
-      <el-button type="primary" @click="handleAdd">新增</el-button>
+      <slot name="tableAction"></slot>
     </div>
     <el-table :data="tableList">
-      <el-table-column
-        v-for="item in tableDesc"
-        :key="item.prop"
-        :label="item.label"
-      >
+      <el-table-column label="序号" type="index" width="60" />
+      <el-table-column v-for="item in tableDesc" :key="item.prop" :label="item.label">
         <template #default="scope">
           {{
             item.defaultVaule
-              ? item.defaultVaule(scope.row)
-              : scope.row[item.prop]
+            ? item.defaultVaule(scope.row)
+            : scope.row[item.prop]
           }}
         </template>
       </el-table-column>
       <el-table-column label="操作">
         <template #default="scope">
-          <slot name="action" :row="scope.row"></slot>
-          <el-button
-            v-if="config.action.includes('detail')"
-            type="text"
-            @click="handleDetail(scope.row)"
-          >
-            详情
-          </el-button>
-          <el-button
-            v-if="config.action.includes('edit')"
-            type="text"
-            @click="handleEdit(scope.row)"
-          >
-            修改
-          </el-button>
-          <el-button
-            v-if="config.action.includes('delete')"
-            type="text"
-            @click="handleDelete(scope.row)"
-          >
-            删除
-          </el-button>
+          <slot name="columnAction" :row="scope.row"></slot>
+          <template v-for="item in columnAction" :key="item.type">
+            <el-button type="text" @click="handleActionClick(item, scope.row)">
+              {{ item.name }}
+            </el-button>
+          </template>
         </template>
       </el-table-column>
     </el-table>
@@ -49,6 +30,7 @@
 
 <script>
 import { defineComponent } from 'vue';
+import { ElMessage, ElMessageBox } from 'element-plus'
 import api from '@/api';
 export default defineComponent({
   name: 'TableContainer',
@@ -66,9 +48,14 @@ export default defineComponent({
     },
     config: {
       default: {
-        dataSource: () => {},
-        action: ['edit', 'detail', 'delete'],
+        dataSource: () => { },
+        action: () => [],
       },
+    },
+  },
+  computed: {
+    columnAction() {
+      return this.config.action;
     },
   },
   methods: {
@@ -77,21 +64,41 @@ export default defineComponent({
       let dataSource = {
         ...this.config.dataSource,
       };
-      dataSource.data = { ...dataSource.data, ...this.cacheParam };
-      this.tableList = await api.axios(dataSource);
+      let params = { ...dataSource.data, ...this.cacheParam };
+      this.tableList = await api.axios(dataSource,params);
     },
-    handleAdd() {
-      this.$emit('add');
+
+    // 解析点击事件
+    async handleActionClick(action, row) {
+      if(action.type === 'delete' && action.actionApi){
+        await this.handleDelete(action, row)
+      }
+      if (action.actionFn && typeof action.actionFn === 'function') {
+        await action.actionFn(row)
+      }
+      this.$emit(action.type, row);
     },
-    handleDelete(row) {
-      this.$emit('delete', row);
-    },
-    handleEdit(row) {
-      this.$emit('edit', row);
-    },
-    handleDetail(row) {
-      this.$emit('detail', row);
-    },
+
+    // 默认删除事件
+    handleDelete(action,row) {
+      ElMessageBox.confirm(
+        '确定删除该条内容?',
+        '提示',
+        {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+        }
+      ).then(async () => {
+          let params = {id: row.id}
+          await api.axios(action.actionApi, params);
+          this.getTableList()
+          ElMessage({
+            type: 'success',
+            message: '删除成功',
+          })
+        })
+    }
   },
 });
 </script>
@@ -101,6 +108,7 @@ export default defineComponent({
   background-color: #ffffff;
   padding: 20px;
   margin-bottom: 20px;
+
   .table-action {
     margin-bottom: 16px;
   }

@@ -28,7 +28,7 @@ const axiosCus = {
 };
 
 export default {
-  axios: (dataSource) => axiosCus[dataSource.method](`${baseUrl}${dataSource.url}`, dataSource.data),
+  axios: (dataSource, data) => axiosCus[dataSource.method](`${baseUrl}${dataSource.url}`, data),
   login: (data) => axiosCus.post(`${baseUrl}/api/admin/login`, data),
   getUserInfo: (data) => axiosCus.get(`${baseUrl}/api/admin/detail`, data),
 

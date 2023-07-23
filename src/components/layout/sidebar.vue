@@ -21,6 +21,12 @@
         <el-menu-item index="/page">
           <template #title>页面配置</template>
         </el-menu-item>
+        <el-menu-item index="/pageTemplate">
+          <template #title>页面模板</template>
+        </el-menu-item>
+        <el-menu-item index="/admin">
+          <template #title>管理员设置</template>
+        </el-menu-item>
       </el-menu>
     </el-scrollbar>
   </div>

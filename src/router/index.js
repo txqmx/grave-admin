@@ -37,6 +37,27 @@ const routes = [
         name: 'pageDetail',
         path: '/page/detail',
         component: () => import('../views/page/detail.vue'),
+        meta:{
+          backRoute: {name: 'page'}
+        }
+      },
+      {
+        name: 'pageTemplate',
+        path: '/pageTemplate',
+        component: () => import('../views/pageTemplate/index.vue'),
+      },
+      {
+        name: 'pageTemplateDetail',
+        path: '/pageTemplate/detail',
+        component: () => import('../views/pageTemplate/detail.vue'),
+        meta:{
+          backRoute: {name: 'pageTemplate'}
+        }
+      },
+      {
+        name: 'admin',
+        path: '/admin',
+        component: () => import('../views/admin/index.vue'),
       }
     ],
   },
