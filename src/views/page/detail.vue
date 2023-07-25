@@ -3,6 +3,9 @@
     <form-container ref="formContainer" :formDesc="formDesc" :defaultData="defaultData" label-width="60px"
       input-width="200px">
     </form-container>
+    <div v-for="item in config" :key="item.name">
+      <div>{{ item.name }}</div>
+    </div>
     <el-button @click="submit">提交</el-button>
   </div>
 </template>
@@ -26,12 +29,13 @@ export default defineComponent({
           rules: { required: true },
         }
       ],
+      config:[]
     };
   },
   created() {
     // 设置返回路由
     this.$store.commit('setBackRoute', this.$route.meta.backRoute);
-    
+    this.getTemplateInfo()
     if(this.detailId){
       this.getDetailInfo()
     }
@@ -48,6 +52,18 @@ export default defineComponent({
       }
       let res = await api.axios(dataSource, params);
       this.defaultData = res
+    },
+    // 获取配置
+    async getTemplateInfo(){
+      let dataSource = {
+        method: 'get',
+        url: '/api/pageTemplate/detail',
+      }
+      let params = {
+        id: 1
+      }
+      let res = await api.axios(dataSource, params);
+      console.log(res)
     },
     // 保存
     async submit() {

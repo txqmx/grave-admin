@@ -5,6 +5,7 @@ import DateEditor from './form/date.vue'
 import TextEditor from './form/text.vue'
 import FileUploadEditor from './form/fileUpload/index.vue'
 import RichEditor from './form/richText.vue'
+import JsonEditor from './form/jsonText.vue'
 import TableContainer from './table.vue'
 import SearchContainer from './search.vue'
 import DialogContainer from './dialog.vue'
@@ -20,6 +21,7 @@ const components = [
     TextEditor,
     FileUploadEditor,
     RichEditor,
+    JsonEditor,
     TableContainer,
     SearchContainer,
     DialogContainer,

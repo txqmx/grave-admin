@@ -24,6 +24,12 @@ export default defineComponent({
           label: '名字',
           field: 'name',
           rules: { required: true },
+        },
+        {
+          type: 'JsonEditor',
+          label: '配置',
+          field: 'config',
+          rules: { required: true },
         }
       ],
     };
@@ -46,7 +52,7 @@ export default defineComponent({
       let params = {
         id: this.detailId
       }
-      let res = await api.axios(dataSource, params);
+      let res = await api.axios(dataSource, params)
       this.defaultData = res
     },
     // 保存

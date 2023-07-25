@@ -87,41 +87,7 @@ export default defineComponent({
     // 提交函数
     requestFn: Function,
   },
-  computed: {
-    // gridFormDesc() {
-    //   let row = [];
-    //   let col = [];
-    //   let a = ['TextEditor', 'FileUploadEditor', 'RichEditor'];
-    //   for (var i = 0; i < this.formDesc.length; i++) {
-    //     let item = this.formDesc[i]
-    //     if(item.attrs){
-    //       for(let o in item.attrs){
-    //         if(typeof item.attrs[o] === 'function'){
-    //           item.attrs[o] = item.attrs[o](this.defaultData)
-    //         }
-    //       }
-    //     }
-    //     if (a.includes(item.type)) {
-    //       item.row = 1;
-    //       if (col.length) {
-    //         row.push([...col]);
-    //         col = [];
-    //       }
-    //       row.push([item]);
-    //     } else {
-    //       col.push(item);
-    //       if (col.length === this.row) {
-    //         row.push([...col]);
-    //         col = [];
-    //       }
-    //     }
-    //   }
-    //   if (col.length) {
-    //     row.push([...col]);
-    //   }
-    //   return row;
-    // },
-  },
+
   watch: {
     defaultData() {
       this.initDefaultData();

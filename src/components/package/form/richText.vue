@@ -8,7 +8,7 @@
         :mode="mode"
       />
       <Editor
-        style="height: 500px; overflow-y: hidden"
+        style="height: 300px; overflow-y: hidden"
         v-model="valueHtml"
         :defaultConfig="editorConfig"
         :mode="mode"
@@ -83,7 +83,7 @@ export default {
     return {
       editorRef,
       valueHtml,
-      mode: 'default', // 或 'simple'
+      mode: 'simple', // 或 'simple'
       toolbarConfig,
       editorConfig,
       handleCreated,

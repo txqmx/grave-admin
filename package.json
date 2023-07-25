@@ -12,6 +12,7 @@
     "@wangeditor/editor-for-vue": "^5.1.12",
     "axios": "^0.21.4",
     "codemirror": "^5.65.2",
+    "codemirror-editor-vue3": "^2.3.0",
     "element-plus": "^2.2.2",
     "vue": "^3.2.13",
     "vue-cropper": "^1.0.5",
