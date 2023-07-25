@@ -30,10 +30,10 @@ export default defineComponent({
       default: '请选择',
     },
     labelKey: {
-      default: 'label',
+      default: 'name',
     },
     valueKey: {
-      default: 'value',
+      default: 'id',
     },
     options: {
       type: Array,

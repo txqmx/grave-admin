@@ -46,9 +46,9 @@ export default defineComponent({
       labelWidth: '',
     };
   },
-  created() {
-    this.initData();
-    this.initFormDesc()
+  async created() {
+    await this.initData();
+    this.initFormDesc();
   },
   props: {
     inputWidth: {
@@ -67,6 +67,9 @@ export default defineComponent({
           clearable: true,
         };
       },
+    },
+    scopeName: {
+      default: '',
     },
     formDesc: {
       type: Array,
@@ -94,21 +97,21 @@ export default defineComponent({
     },
   },
   methods: {
-    initFormDesc(){
+    initFormDesc() {
       let row = [];
       let col = [];
       let a = ['TextEditor', 'FileUploadEditor', 'RichEditor'];
       for (var i = 0; i < this.formDesc.length; i++) {
-        let item = {...this.formDesc[i]}
-        if(item.attrs){
-          let copyAttrs = {}
-          for(let o in item.attrs){
-            copyAttrs[o] = item.attrs[o]
-            if(typeof item.attrs[o] === 'function'){
-              copyAttrs[o] = item.attrs[o](this.defaultData)
+        let item = { ...this.formDesc[i] };
+        if (item.attrs) {
+          let copyAttrs = {};
+          for (let o in item.attrs) {
+            copyAttrs[o] = item.attrs[o];
+            if (typeof item.attrs[o] === 'function') {
+              copyAttrs[o] = item.attrs[o](this.defaultData);
             }
           }
-          item.attrs = copyAttrs
+          item.attrs = copyAttrs;
         }
         if (a.includes(item.type)) {
           item.row = 1;
@@ -128,21 +131,23 @@ export default defineComponent({
       if (col.length) {
         row.push([...col]);
       }
-      this.gridFormDesc = row
+      this.gridFormDesc = row;
     },
 
-    initData() {
+    // 异步待优化
+    async initData() {
       let formData = {};
       let rules = {};
-      this.formDesc.forEach((item) => {
+      for (let i = 0; i < this.formDesc.length; i++) {
+        let item = this.formDesc[i];
         if (item.field) {
           formData[item.field] = this.defaultData[item.field] || null;
           rules[item.field] = this.initRules(item);
           if (item.options) {
-            item._options = this.initOptions(item);
+            item._options = await this.initOptions(item);
           }
         }
-      });
+      }
       this.formData = formData;
       this.rules = rules;
     },
@@ -171,12 +176,12 @@ export default defineComponent({
       }
     },
 
-    initOptions(formItem) {
+    async initOptions(formItem) {
       let options = formItem.options;
       if (options instanceof Array) {
         return options;
       } else if (options instanceof Function) {
-        return options(formData);
+        return await options(this.formData);
       } else if (options instanceof Promise) {
         options.then((res) => {
           return res;
@@ -190,7 +195,13 @@ export default defineComponent({
       return new Promise((resolve, reject) => {
         this.$refs['form'].validate((valid, invalidFields) => {
           if (valid) {
-            resolve({ ...this.defaultData, ...this.formData });
+            if (this.scopeName) {
+              resolve({
+                [this.scopeName]: { ...this.defaultData, ...this.formData },
+              });
+            } else {
+              resolve({ ...this.defaultData, ...this.formData });
+            }
           }
         });
       });

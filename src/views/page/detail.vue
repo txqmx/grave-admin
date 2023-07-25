@@ -1,10 +1,16 @@
 <template>
   <div class="family-container">
-    <form-container ref="formContainer" :formDesc="formDesc" :defaultData="defaultData" label-width="60px"
-      input-width="200px">
-    </form-container>
     <div v-for="item in config" :key="item.name">
-      <div>{{ item.name }}</div>
+      <div class="form_title">{{ item.name }}</div>
+      <form-container
+        :ref="item.dataSource"
+        :formDesc="item.fields"
+        :defaultData="parseParams(item)"
+        :scope-name="item.dataSource"
+        label-width="60px"
+        input-width="200px"
+      >
+      </form-container>
     </div>
     <el-button @click="submit">提交</el-button>
   </div>
@@ -14,31 +20,25 @@
 import api from '@/api';
 import { defineComponent, ref, computed } from 'vue';
 import { ElMessage } from 'element-plus';
-import { getUrlParam } from '@/utils/Url'
+import { getUrlParam } from '@/utils/Url';
 
 export default defineComponent({
   data() {
     return {
       detailId: this.$route.query.id,
       defaultData: {},
-      formDesc: [
-        {
-          type: 'InputEditor',
-          label: '名字',
-          field: 'name',
-          rules: { required: true },
-        }
-      ],
-      config:[]
+      config: [],
+      configData: {},
     };
   },
-  created() {
+  async created() {
     // 设置返回路由
     this.$store.commit('setBackRoute', this.$route.meta.backRoute);
-    this.getTemplateInfo()
-    if(this.detailId){
-      this.getDetailInfo()
+
+    if (this.detailId) {
+      await this.getDetailInfo();
     }
+    this.getTemplateInfo();
   },
   methods: {
     // 获取详情
@@ -46,45 +46,73 @@ export default defineComponent({
       let dataSource = {
         method: 'get',
         url: '/api/page/detail',
-      }
+      };
       let params = {
-        id: this.detailId
-      }
+        id: this.detailId,
+      };
       let res = await api.axios(dataSource, params);
-      this.defaultData = res
+      this.defaultData = res;
     },
     // 获取配置
-    async getTemplateInfo(){
+    async getTemplateInfo() {
       let dataSource = {
         method: 'get',
         url: '/api/pageTemplate/detail',
-      }
+      };
       let params = {
-        id: 1
-      }
+        id: this.defaultData.template_id,
+      };
       let res = await api.axios(dataSource, params);
-      console.log(res)
+      this.config = JSON.parse(res.config);
     },
+
+    // 解析配置默认字段
+    parseParams(row) {
+      let data = this.defaultData.content
+        ? JSON.parse(this.defaultData.content)
+        : {};
+      let params = {};
+      row.fields.forEach((item) => {
+        params[item.field] = '';
+      });
+      if (data[row.dataSource]) {
+        params = { ...params, ...data[row.dataSource] };
+      }
+      return params;
+    },
+
+    // 处理配置内容
+    async parseContent() {
+      let names = [];
+      let promises = [];
+      this.config.forEach((item) => {
+        names.push(item.dataSource);
+        promises.push(this.$refs[item.dataSource].submitForm());
+      });
+      let resArr = await Promise.all(promises);
+      return resArr.reduce((prev, cur) => {
+        return { ...prev, ...cur };
+      });
+    },
+
     // 保存
     async submit() {
-      this.$refs.formContainer.submitForm().then(async (res) => {
-        let dataSource = {
-          method: 'post',
-          url: '/api/page/create',
-        }
-        let params = {...res}
-        if(this.defaultData.id){
-          dataSource.url = '/api/page/update'
-          params.id = this.defaultData.id
-        }
-        let item = await api.axios(dataSource,params);
-        ElMessage({
-          message: '保存成功',
-          type: 'success',
-        });
-        this.$store.commit('setBackRoute', '');
-        this.$router.replace(this.$route.meta.backRoute)
+      let dataSource = {
+        method: 'post',
+        url: '/api/page/update',
+      };
+      let content = await this.parseContent();
+      let params = {
+        ...this.defaultData,
+        content: JSON.stringify(content),
+      };
+      await api.axios(dataSource, params);
+      ElMessage({
+        message: '保存成功',
+        type: 'success',
       });
+      this.$store.commit('setBackRoute', '');
+      this.$router.replace(this.$route.meta.backRoute);
     },
   },
 });
@@ -94,5 +122,8 @@ export default defineComponent({
 .family-container {
   padding: 20px;
   background: #ffffff;
+  .form_title {
+    margin: 10px 0 18px;
+  }
 }
 </style>

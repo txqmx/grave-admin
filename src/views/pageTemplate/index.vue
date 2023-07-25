@@ -27,10 +27,6 @@ export default defineComponent({
             return row['name'];
           },
         },
-        {
-          prop: 'template_id',
-          label: '模板',
-        },
       ],
       tableConfig: {
         dataSource: {
@@ -49,7 +45,7 @@ export default defineComponent({
             name: '删除',
             actionApi: {
               method: 'post',
-              url: '/api/pageTemplate/delete'
+              url: '/api/pageTemplate/delete',
             },
           },
         ],
@@ -69,16 +65,16 @@ export default defineComponent({
     handleEdit(row) {
       this.$router.push({
         name: 'pageTemplateDetail',
-        query:{ id: row.id}
-      })
+        query: { id: row.id },
+      });
     },
 
     // 新增
     handleAdd() {
       this.$router.push({
         name: 'pageTemplateDetail',
-      })
-    }
+      });
+    },
   },
 });
 </script>
