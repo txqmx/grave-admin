@@ -5,6 +5,7 @@
       v-model="dialogVisible"
       width="700px"
       :before-close="handleClose"
+      :close-on-click-modal="false"
     >
       <div class="cropper-container">
         <div class="cropper-el">
@@ -106,7 +107,7 @@ export default defineComponent({
   methods: {
     // 初始化数据
     initCropper(file, options) {
-      console.log('裁剪前',file)
+      console.log('裁剪前', file);
       this.file = file;
       this.option.img = window.URL.createObjectURL(file);
       this.option = Object.assign(this.option, options);
@@ -127,8 +128,8 @@ export default defineComponent({
     // 获取裁剪之后的图片，默认blob，也可以获取base64的图片
     saveImg() {
       this.$refs.cropper.getCropBlob((data) => {
-        let file = new File([data], this.file.name,{ type: 'image/jpeg' });
-        console.log('裁剪后',file)
+        let file = new File([data], this.file.name, { type: 'image/jpeg' });
+        console.log('裁剪后', file);
         this.success(file);
         this.dialogVisible = false;
       });
@@ -140,35 +141,35 @@ export default defineComponent({
 <style lang="scss" scoped>
 .cropper-container {
   overflow: auto;
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
   .cropper-el {
     height: 300px;
     width: 300px;
   }
   .prive-el {
-      height: 164px;
-      width: 94px;
+    height: 164px;
+    width: 94px;
+    flex: 1;
+    text-align: center;
+    .prive-style {
+      margin: 0 auto;
       flex: 1;
-      text-align: center;
-      .prive-style {
-        margin: 0 auto;
-        flex: 1;
-        -webkit-flex: 1;
-        display: flex;
-        display: -webkit-flex;
-        justify-content: center;
-        -webkit-justify-content: center;
-        overflow: hidden;
-        background: #ededed;
-        margin-left: 40px;
-      }
-      .preview {
-        overflow: hidden;
-      }
-      .el-button {
-        margin-top: 20px;
-      }
+      -webkit-flex: 1;
+      display: flex;
+      display: -webkit-flex;
+      justify-content: center;
+      -webkit-justify-content: center;
+      overflow: hidden;
+      background: #ededed;
+      margin-left: 40px;
     }
+    .preview {
+      overflow: hidden;
+    }
+    .el-button {
+      margin-top: 20px;
+    }
+  }
 }
 </style>

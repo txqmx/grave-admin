@@ -43,4 +43,8 @@ export default {
   createMember: (data) => axiosCus.post(`${baseUrl}/api/admin/member/create`, data),
   deleteMember: (data) => axiosCus.post(`${baseUrl}/api/admin/member/delete`, data),
   createMate: (data) => axiosCus.post(`${baseUrl}/api/admin/mate/create`, data),
+  createMate: (data) => axiosCus.post(`${baseUrl}/api/admin/mate/create`, data),
+
+  // 上传
+  upload: (data, config) => axiosCus.post(`${baseUrl}/api/admin/file/upload`, data, config),
 };
