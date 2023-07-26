@@ -53,7 +53,7 @@ export default defineComponent({
       tableConfig: {
         dataSource: {
           method: 'get',
-          url: '/api/page/list',
+          url: '/api/admin/page/list',
           data: {},
         },
         action: [
@@ -67,7 +67,7 @@ export default defineComponent({
             name: '删除',
             actionApi: {
               method: 'post',
-              url: '/api/page/delete',
+              url: '/api/admin/page/delete',
             },
           },
         ],
@@ -102,7 +102,7 @@ export default defineComponent({
     async getTemplateList() {
       let dataSource = {
         method: 'get',
-        url: '/api/pageTemplate/list',
+        url: '/api/admin/pageTemplate/list',
       };
       return await api.axios(dataSource);
     },
@@ -124,7 +124,7 @@ export default defineComponent({
       this.$refs.formContainer.submitForm().then(async (res) => {
         let dataSource = {
           method: 'post',
-          url: '/api/page/create',
+          url: '/api/admin/page/create',
         };
         let params = { ...res };
         await api.axios(dataSource, params);

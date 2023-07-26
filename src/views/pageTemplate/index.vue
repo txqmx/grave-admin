@@ -31,7 +31,7 @@ export default defineComponent({
       tableConfig: {
         dataSource: {
           method: 'get',
-          url: '/api/pageTemplate/list',
+          url: '/api/admin/pageTemplate/list',
           data: {},
         },
         action: [
@@ -45,7 +45,7 @@ export default defineComponent({
             name: '删除',
             actionApi: {
               method: 'post',
-              url: '/api/pageTemplate/delete',
+              url: '/api/admin/pageTemplate/delete',
             },
           },
         ],

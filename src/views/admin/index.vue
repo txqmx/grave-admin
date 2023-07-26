@@ -57,7 +57,7 @@ export default defineComponent({
       tableConfig: {
         dataSource: {
           method: 'get',
-          url: '/api/admin/list',
+          url: '/api/admin/user/list',
           data: {},
         },
         action: [
@@ -71,7 +71,7 @@ export default defineComponent({
             name: '删除',
             actionApi: {
               method: 'post',
-              url: '/api/admin/delete'
+              url: '/api/admin/user/delete'
             },
           },
         ],
@@ -124,11 +124,11 @@ export default defineComponent({
       this.$refs.formContainer.submitForm().then(async (res) => {
         let dataSource = {
           method: 'post',
-          url: '/api/admin/create',
+          url: '/api/admin/user/create',
         }
         let params = {...res}
         if(this.defaultData.id){
-          dataSource.url = '/api/admin/update'
+          dataSource.url = '/api/admin/user/update'
           params.id = this.defaultData.id
         }
         await api.axios(dataSource,params);

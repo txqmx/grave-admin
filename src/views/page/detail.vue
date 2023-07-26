@@ -45,7 +45,7 @@ export default defineComponent({
     async getDetailInfo() {
       let dataSource = {
         method: 'get',
-        url: '/api/page/detail',
+        url: '/api/admin/page/detail',
       };
       let params = {
         id: this.detailId,
@@ -57,7 +57,7 @@ export default defineComponent({
     async getTemplateInfo() {
       let dataSource = {
         method: 'get',
-        url: '/api/pageTemplate/detail',
+        url: '/api/admin/pageTemplate/detail',
       };
       let params = {
         id: this.defaultData.template_id,
@@ -99,7 +99,7 @@ export default defineComponent({
     async submit() {
       let dataSource = {
         method: 'post',
-        url: '/api/page/update',
+        url: '/api/admin/page/update',
       };
       let content = await this.parseContent();
       let params = {

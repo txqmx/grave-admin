@@ -30,17 +30,17 @@ const axiosCus = {
 export default {
   axios: (dataSource, data) => axiosCus[dataSource.method](`${baseUrl}${dataSource.url}`, data),
   login: (data) => axiosCus.post(`${baseUrl}/api/admin/login`, data),
-  getUserInfo: (data) => axiosCus.get(`${baseUrl}/api/admin/detail`, data),
+  getUserInfo: (data) => axiosCus.get(`${baseUrl}/api/admin/user/detail`, data),
 
   // 墓碑管理
-  getGraveList: (data) => axiosCus.get(`${baseUrl}/api/grave/list`, data),
-  getGraveInfo: (data) => axiosCus.get(`${baseUrl}/api/grave/detail`, data),
-  createGrave: (data) => axiosCus.post(`${baseUrl}/api/grave/create`, data),
-  updateGrave: (data) => axiosCus.post(`${baseUrl}/api/grave/update`, data),
+  getGraveList: (data) => axiosCus.get(`${baseUrl}/api/admin/grave/list`, data),
+  getGraveInfo: (data) => axiosCus.get(`${baseUrl}/api/admin/grave/detail`, data),
+  createGrave: (data) => axiosCus.post(`${baseUrl}/api/admin/grave/create`, data),
+  updateGrave: (data) => axiosCus.post(`${baseUrl}/api/admin/grave/update`, data),
 
   // 人物关系
-  getMemberTree: (data) => axiosCus.get(`${baseUrl}/api/member/treeList`, data),
-  createMember: (data) => axiosCus.post(`${baseUrl}/api/member/create`, data),
-  deleteMember: (data) => axiosCus.post(`${baseUrl}/api/member/delete`, data),
-  createMate: (data) => axiosCus.post(`${baseUrl}/api/mate/create`, data),
+  getMemberTree: (data) => axiosCus.get(`${baseUrl}/api/admin/member/treeList`, data),
+  createMember: (data) => axiosCus.post(`${baseUrl}/api/admin/member/create`, data),
+  deleteMember: (data) => axiosCus.post(`${baseUrl}/api/admin/member/delete`, data),
+  createMate: (data) => axiosCus.post(`${baseUrl}/api/admin/mate/create`, data),
 };

@@ -64,7 +64,7 @@ export default defineComponent({
       tableConfig: {
         dataSource: {
           method: 'get',
-          url: '/api/grave/list',
+          url: '/api/admin/grave/list',
           data: {},
         },
         action: [],
