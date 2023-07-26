@@ -35,7 +35,7 @@ export default {
   // 墓碑管理
   getGraveList: (data) => axiosCus.get(`${baseUrl}/api/admin/grave/list`, data),
   getGraveInfo: (data) => axiosCus.get(`${baseUrl}/api/admin/grave/detail`, data),
-  createGrave: (data) => axiosCus.post(`${baseUrl}/api/admin/grave/create`, data),
+  createGrave: (data) => axiosCus.post(`${baseUrl}/api/admin/grave/createGrave`, data),
   updateGrave: (data) => axiosCus.post(`${baseUrl}/api/admin/grave/update`, data),
 
   // 人物关系

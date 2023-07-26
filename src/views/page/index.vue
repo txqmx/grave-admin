@@ -8,6 +8,12 @@
       <template #tableAction>
         <el-button type="primary" @click="handleAdd">新增</el-button>
       </template>
+      <template #columnAction="scope">
+        <el-button type="text" @click="handleEdit(scope.row)"
+          >进入详情</el-button
+        >
+        <el-button type="text" @click="handChangeStatus(scope.row)">{{scope.row.is_active ? '停用': '启用'}}</el-button>
+      </template>
     </table-container>
     <dialog-container
       v-model="showModal"
@@ -49,6 +55,13 @@ export default defineComponent({
           prop: 'template_name',
           label: '模板',
         },
+        {
+          prop: 'is_active',
+          label: '启用状态',
+          defaultVaule: (row) => {
+            return row.is_active ? '是' : '否';
+          },
+        },
       ],
       tableConfig: {
         dataSource: {
@@ -57,11 +70,6 @@ export default defineComponent({
           data: {},
         },
         action: [
-          {
-            type: 'edit',
-            name: '进入详情',
-            actionFn: this.handleEdit,
-          },
           {
             type: 'delete',
             name: '删除',
@@ -136,12 +144,31 @@ export default defineComponent({
         this.getTableList();
       });
     },
+    
 
     // 关闭弹窗
     close() {
       this.showModal = false;
       this.defaultData = {};
     },
+
+    // 启用
+    async handChangeStatus(row){
+      let dataSource = {
+        method: 'post',
+        url: '/api/admin/page/changeStatus',
+      };
+      let params = {
+        id: row.id,
+        is_active: row.is_active? 0 : 1,
+      };
+      await api.axios(dataSource, params);
+      ElMessage({
+        message: '保存成功',
+        type: 'success',
+      });
+      this.getTableList();
+    }
   },
 });
 </script>
