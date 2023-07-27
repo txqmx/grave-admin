@@ -1,13 +1,25 @@
 [
   {
-    "name": "LvBannerView",
-    "component": "LvBannerView",
+    "name": "人物面板",
+    "component": "GraveMemberView",
     "fields": [
+      {
+        "type": "InputEditor",
+        "label": "头像",
+        "field": "avatar",
+        "defaultValue": "$model.Member?is_master=1.avatar",
+        "rules": {
+          "required": true
+        },
+        "attrs": {
+          "disabled": true
+        }
+      },
       {
         "type": "InputEditor",
         "label": "名字",
         "field": "name",
-        "defaultValue": "$model.grave?is_master.name",
+        "defaultValue": "$model.Member?is_master=1.name",
         "rules": {
           "required": true
         },
@@ -16,6 +28,41 @@
         }
       }
     ],
-    "dataSource": "bannerData"
+    "dataSource": "memberData"
+  },
+  {
+    "name": "幻灯片",
+    "component": "GraveImgSwiper",
+    "fields": [
+      {
+        "type": "FileUploadEditor",
+        "label": "图片",
+        "field": "imgs",
+        "rules": {
+          "required": true
+        },
+        "attrs": {
+          "type": "img",
+          "multiple": true
+        }
+      }
+    ],
+    "dataSource": "imgsData"
+  },
+  {
+    "name": "墓碑介绍",
+    "component": "GraveDeatilView",
+    "fields": [
+      {
+        "type": "InputEditor",
+        "label": "内容",
+        "field": "detail",
+        "defaultValue": "$model.Grave.detail",
+        "rules": {
+          "required": true
+        }
+      }
+    ],
+    "dataSource": "graveDtaile"
   }
 ]

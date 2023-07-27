@@ -8,7 +8,7 @@ export function resSuccess (response) {
         resolve(response.data.data)
       } else {
         ElMessage({
-          message: response.data.message  || msg,
+          message: response.data.message,
           type: 'error',
           duration: 3 * 1000
         })

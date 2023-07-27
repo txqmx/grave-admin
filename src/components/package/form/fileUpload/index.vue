@@ -40,7 +40,7 @@ export default defineComponent({
   },
   props: {
     type: {
-      default: '', // img, file
+      default: 'img', // img, file
     },
     multiple: {
       default: false, // 多上传
