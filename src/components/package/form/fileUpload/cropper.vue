@@ -7,8 +7,18 @@
       :before-close="handleClose"
       :close-on-click-modal="false"
     >
+      <div class="cropper_scale">
+        <el-radio-group v-model="scale" @change="scaleChange">
+          <el-radio
+            v-for="item in scaleList"
+            :key="item.value"
+            :label="item.value"
+            >{{ item.label }}</el-radio
+          >
+        </el-radio-group>
+      </div>
       <div class="cropper-container">
-        <div class="cropper-el">
+        <div class="cropper_left">
           <vue-cropper
             ref="cropper"
             :img="option.img"
@@ -33,18 +43,8 @@
           />
         </div>
         <!-- 预览 -->
-        <div class="prive-el">
-          <div
-            class="prive-style"
-            :style="{
-              width: `${option.autoCropWidth}px`,
-              height: `${option.autoCropHeight}px`,
-              overflow: 'hidden',
-              margin: '0 25px',
-              display: 'flex',
-              'align-items': 'center',
-            }"
-          >
+        <div class="cropper_right">
+          <div class="prive-el">
             <div class="preview" :style="previews.div">
               <img :src="previews.url" :style="previews.img" />
             </div>
@@ -74,29 +74,37 @@ export default defineComponent({
   data() {
     return {
       previews: {},
+      scale: 0,
+      scaleList: [
+        { value: 0, label: '自动', scale:[]},
+        { value: 1, label: '4:3', scale:[4,3]},
+        { value: 3, label: '3:4(头像)', scale:[3,4]},
+        { value: 4, label: '16:9', scale:[16,9]},
+        { value: 5, label: '9:16(轮播图)', scale:[9,16]},
+      ],
       option: {
         img: '', // 裁剪图片的地址
         size: 1, // 裁剪生成图片的质量
         info: true, // 裁剪框的大小信息
         full: false, // 是否输出原图比例的截图 默认false
         outputType: 'jpeg', // 裁剪生成图片的格式 默认jpg
-        canMove: false, // 上传图片是否可以移动
+        canMove: true, // 上传图片是否可以移动
         fixedBox: false, // 固定截图框大小 不允许改变
         original: false, // 上传图片按照原始比例渲染
         canMoveBox: true, // 截图框能否拖动
         autoCrop: true, // 是否默认生成截图框
         // 只有自动截图开启 宽度高度才生效
-        autoCropWidth: 112, // 默认生成截图框宽度
-        autoCropHeight: 144, // 默认生成截图框高度
-        centerBox: false, // 截图框是否被限制在图片里面
+        // autoCropWidth: 112, // 默认生成截图框宽度
+        // autoCropHeight: 144, // 默认生成截图框高度
+        centerBox: true, // 截图框是否被限制在图片里面
         high: false, // 是否按照设备的dpr 输出等比例图片
         enlarge: 1, // 图片根据截图框输出比例倍数
         mode: 'contain', // 图片默认渲染方式
         maxImgSize: 2000, // 限制图片最大宽度和高度
         // limitMinSize: [112, 112], // 更新裁剪框最小属性
         infoTrue: true, // true 为展示真实输出图片宽高 false 展示看到的截图框宽高
-        fixed: true, // 是否开启截图框宽高固定比例  (默认:true)
-        fixedNumber: [112, 144], // 截图框的宽高比例
+        fixed: false, // 是否开启截图框宽高固定比例  (默认:true)
+        fixedNumber: [], // 截图框的宽高比例
         canScale: true,
       },
       dialogVisible: false,
@@ -115,6 +123,13 @@ export default defineComponent({
         this.success = options.success;
       }
       this.dialogVisible = true;
+    },
+    // 切换比例
+    scaleChange(val){
+      this.option.fixed = !!val
+      let cur =  this.scaleList.find(item => item.value == val)
+      this.option.fixedNumber = cur.scale
+      this.$refs.cropper.refresh()
     },
     // 裁剪时触发的方法，用于实时预览
     realTime(data) {
@@ -143,32 +158,29 @@ export default defineComponent({
   overflow: auto;
   display: flex;
   justify-content: space-between;
-  .cropper-el {
+  .cropper_left {
     height: 300px;
     width: 300px;
   }
-  .prive-el {
-    height: 164px;
-    width: 94px;
+  .cropper_right {
     flex: 1;
-    text-align: center;
-    .prive-style {
-      margin: 0 auto;
-      flex: 1;
-      -webkit-flex: 1;
-      display: flex;
-      display: -webkit-flex;
-      justify-content: center;
-      -webkit-justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .prive-el {
+      height: 300px;
+      width: 300px;
+      text-align: center;
       overflow: hidden;
       background: #ededed;
-      margin-left: 40px;
-    }
-    .preview {
-      overflow: hidden;
-    }
-    .el-button {
-      margin-top: 20px;
+      border: 1px solid #ededed;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .preview {
+        overflow: hidden;
+      }
     }
   }
 }

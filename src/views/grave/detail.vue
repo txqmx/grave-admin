@@ -34,15 +34,14 @@ export default defineComponent({
           attrs: {
             type: 'img',
             corpper: true,
-            corpperScale: [300, 150],
             multiple: false,
-            folder: 'avatar',
           },
         },
         {
           type: 'InputEditor',
           label: '地址',
           field: 'address',
+          defaultValue: 'xx'
         },
         {
           type: 'TextEditor',

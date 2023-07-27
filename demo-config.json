@@ -1,171 +1,21 @@
 [
   {
-    "id": 2,
     "name": "LvBannerView",
-    "type": "LvBannerView",
-    "data": {
-      "title": {
-        "type": "text",
-        "label": "标题",
-        "value": "$sql.Genealogy.name",
-        "defaultValue": "",
-        "describe": ""
-      },
-      "address": {
-        "type": "text",
-        "label": "地址",
-        "value": "湖南",
-        "defaultValue": "",
-        "describe": ""
-      },
-      "info": {
-        "type": "text",
-        "label": "简介",
-        "value": "$sql.Genealogy.info",
-        "defaultValue": "",
-        "describe": ""
-      },
-      "img": {
-        "type": "text",
-        "label": "图片",
-        "value": "$sql.Genealogy.cover",
-        "defaultValue": "",
-        "describe": ""
-      }
-    }
-  },
-  {
-    "id": 11,
-    "name": "LvMenu",
-    "type": "LvMenu",
-    "data": null
-  },
-  {
-    "id": 5,
-    "name": "LvImgSwiper",
-    "type": "LvImgSwiper",
-    "data": {
-      "imgs": {
-        "type": "img",
-        "label": "图片",
-        "value": [
-          "home/497e9d0b-54f9-4f0a-bee8-38e2c0722abb_20230113.jpeg",
-          "home/c41f6d84-7cde-4af5-a2b7-448241b675e7_20230113.jpeg",
-          "home/fe3c79e3-bc96-4e06-836f-8e722401adbd_20230113.jpeg"
-        ],
-        "defaultValue": "",
-        "describe": ""
-      }
-    }
-  },
-  {
-    "id": 6,
-    "name": "LvMemberSwiper",
-    "type": "LvMemberSwiper",
-    "data": {
-      "dataList": {
-        "type": "text",
-        "label": "dataList",
-        "value": "",
-        "dataSource": {
-          "type": "axios",
-          "method": "get",
-          "url": "/api/member/queryList",
-          "data": {
-            "id": "35,36,20,80,97,68,81"
-          }
+    "component": "LvBannerView",
+    "fields": [
+      {
+        "type": "InputEditor",
+        "label": "名字",
+        "field": "name",
+        "defaultValue": "$model.grave?is_master.name",
+        "rules": {
+          "required": true
         },
-        "defaultValue": "",
-        "describe": ""
+        "attrs": {
+          "disabled": true
+        }
       }
-    }
-  },
-  {
-    "id": 7,
-    "name": "LvTextView",
-    "type": "LvTextView",
-    "data": {
-      "detail": {
-        "type": "text",
-        "label": "detail",
-        "value": "$sql.Genealogy.detail",
-        "moreEntry": {
-          "name": "articlesDetail",
-          "query": {
-            "id": "3"
-          }
-        },
-        "defaultValue": "",
-        "describe": ""
-      }
-    }
-  },
-  {
-    "id": 8,
-    "name": "LvImgAlbum",
-    "type": "LvImgAlbum",
-    "data": {
-      "imgItem": {
-        "type": "img",
-        "label": "imgs",
-        "value": [],
-        "dataSource": {
-          "type": "axios",
-          "method": "get",
-          "url": "/api/resourceType/query",
-          "data": {
-            "id": "2"
-          }
-        },
-        "defaultValue": "",
-        "describe": ""
-      }
-    }
-  },
-  {
-    "id": 9,
-    "name": "LvNoticeView",
-    "type": "LvNoticeView",
-    "data": {
-      "dataList": {
-        "type": "img",
-        "label": "imgs",
-        "value": [],
-        "dataSource": {
-          "type": "axios",
-          "method": "get",
-          "url": "/api/articles/queryList",
-          "data": {
-            "id": "1,2,3",
-            "type": "zxdt"
-          }
-        },
-        "defaultValue": "",
-        "describe": ""
-      }
-    }
-  },
-  {
-    "id": 10,
-    "name": "LvVideoView",
-    "type": "LvVideoView",
-    "data": {
-      "videoItem": {
-        "type": "img",
-        "label": "imgs",
-        "value": [],
-        "dataSource": {
-          "type": "axios",
-          "method": "get",
-          "url": "/api/articles/query",
-          "data": {
-            "id": "28",
-            "type": "spyx"
-          }
-        },
-        "defaultValue": "",
-        "describe": ""
-      }
-    }
+    ],
+    "dataSource": "bannerData"
   }
 ]

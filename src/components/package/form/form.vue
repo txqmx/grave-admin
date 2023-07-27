@@ -141,7 +141,7 @@ export default defineComponent({
       for (let i = 0; i < this.formDesc.length; i++) {
         let item = this.formDesc[i];
         if (item.field) {
-          formData[item.field] = this.defaultData[item.field] || null;
+          formData[item.field] = this.defaultData[item.field] || item.defaultValue || null;
           rules[item.field] = this.initRules(item);
           if (item.options) {
             item._options = await this.initOptions(item);
@@ -155,7 +155,7 @@ export default defineComponent({
     initDefaultData() {
       this.$refs['form'].resetFields();
       for (let i in this.formData) {
-        this.formData[i] = this.defaultData[i];
+        this.formData[i] = this.defaultData[i] || this.formData[i];
       }
     },
 

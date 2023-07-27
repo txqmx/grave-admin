@@ -40,22 +40,19 @@ export default defineComponent({
   },
   props: {
     type: {
-      default: '',
+      default: '', // img, file
     },
     multiple: {
-      default: false,
+      default: false, // 多上传
     },
     modelValue: {
       default: '',
     },
-    corpper: {
-      default: true,
+    folder: { 
+      default: '', // 文件分组路径
     },
-    folder: {
-      default: '',
-    },
-    corpperScale: {
-      default: () => [100, 100],
+    corpper: { 
+      default: true, // 是否支持裁剪
     },
   },
   watch: {
@@ -101,13 +98,12 @@ export default defineComponent({
       }
     },
     listToValue(fileList) {
-      if (!fileList.length) return '';
       if (this.multiple) {
         return fileList.map((item) => {
           return item.path;
         });
       } else {
-        return fileList[0].path;
+        return fileList.length? fileList[0].path: '';
       }
     },
     getFileName(path) {
@@ -118,7 +114,7 @@ export default defineComponent({
     httpRequest(file) {
       let formData = new FormData();
       formData.append('file', file);
-      formData.append('type', this.folder);
+      // formData.append('folder', this.folder);
       api
         .upload(formData, {
           headers: {
@@ -152,23 +148,20 @@ export default defineComponent({
     remove() {
       this.$emit('update:modelValue', this.listToValue(this.fileList));
     },
+    // 上传
     beforeUpload(rawFile) {
       return new Promise((resolve, reject) => {
         if (this.type === 'img' && this.corpper) {
-          console.log(this.corpperScale);
           this.$refs.cropperImg.initCropper(rawFile, {
-            fixedNumber: this.corpperScale,
-            autoCropWidth: this.corpperScale[0],
-            autoCropHeight: this.corpperScale[1],
             success: this.httpRequest,
           });
         } else {
           this.httpRequest(rawFile);
         }
-
         reject();
       });
     },
+    // 关闭裁剪弹窗
     closeDialog() {
       this.fileList.pop();
     },
