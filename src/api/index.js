@@ -37,6 +37,7 @@ export default {
   getGraveInfo: (data) => axiosCus.get(`${baseUrl}/api/admin/grave/detail`, data),
   createGrave: (data) => axiosCus.post(`${baseUrl}/api/admin/grave/createGrave`, data),
   updateGrave: (data) => axiosCus.post(`${baseUrl}/api/admin/grave/update`, data),
+  getQrcode: (data) => axiosCus.get(`${baseUrl}/api/admin/grave/getQrcode`, data),
 
   // 人物关系
   getMemberTree: (data) => axiosCus.get(`${baseUrl}/api/admin/member/treeList`, data),
