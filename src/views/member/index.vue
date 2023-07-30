@@ -1,7 +1,7 @@
 <template>
   <div class="family-create-container">
     <div class="create-root">
-      <el-button @click="handleAdd('root', currentRow)">增加父节点</el-button>
+      <!-- <el-button @click="handleAdd('root', currentRow)">增加父节点</el-button> -->
       <el-button :disabled="!currentRow.id" @click="handleAdd('child', currentRow)">添加后代</el-button>
       <el-button :disabled="!currentRow.id || currentRow.mateInfo" @click="handleAdd('mate', currentRow)">添加配偶
       </el-button>
@@ -19,13 +19,13 @@
           <span class="custom-tree-node">
             <span class="node-name">
               {{ data.name }}
-              <el-icon @click="handleEdit(data)">
+              <el-icon @click="handleEdit(data, 'main')">
                 <Edit />
               </el-icon>
             </span>
             <span v-if="data.mate" class="node-name">
               {{ data.mate && data.mate.name }}
-              <el-icon @click="handleEdit(data.mate)">
+              <el-icon @click="handleEdit(data.mate, 'mate')">
                 <Edit />
               </el-icon>
             </span>
@@ -98,12 +98,12 @@ export default defineComponent({
           field: 'sex',
           options: [
             {
-              value: 1,
-              label: '男',
+              id: 1,
+              name: '男',
             },
             {
-              value: 0,
-              label: '女',
+              id: 0,
+              name: '女',
             },
           ],
         },
@@ -129,7 +129,16 @@ export default defineComponent({
       this.currentRow = row
     },
     // 编辑
-    handleEdit(row) { },
+    handleEdit(row,type) { 
+      console.log(row)
+      this.$router.push({
+        name: 'memberDetail',
+        query:{
+          id: row.id,
+          type
+        }
+      })
+    },
     // 添加
     handleAdd(type) {
       this.addType = type;

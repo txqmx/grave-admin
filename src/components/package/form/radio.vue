@@ -1,30 +1,20 @@
 <template>
   <div class="mc-input_container">
-    <el-input
-      :style="{ width: inputWidth }"
-      v-model="inputVal"
-      :placeholder="placeholder"
-      v-on:input="onInput"
-      v-bind="systemModel ? {...$attrs, disabled:true}: $attrs"
-    >
-    </el-input>
+    <el-radio-group v-model="inputVal" v-bind="$attrs">
+      <el-radio :label="1">是</el-radio>
+      <el-radio :label="0">否</el-radio>
+    </el-radio-group>
   </div>
 </template>
 
 <script>
 import { defineComponent } from 'vue';
 export default defineComponent({
-  name: 'InputEditor',
+  name: 'RadioEditor',
   inject: ['inputWidth'],
   props: {
     modelValue: {
       default: '',
-    },
-    placeholder: {
-      default: '请输入',
-    },
-    systemModel:{
-      default: false
     }
   },
   computed: {

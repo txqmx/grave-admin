@@ -79,8 +79,9 @@ export default defineComponent({
         { value: 0, label: '自动', scale:[]},
         { value: 1, label: '4:3', scale:[4,3]},
         { value: 3, label: '3:4(头像)', scale:[3,4]},
-        { value: 4, label: '16:9', scale:[16,9]},
-        { value: 5, label: '9:16(轮播图)', scale:[9,16]},
+        { value: 4, label: '16:9(轮播图)', scale:[16,9]},
+        { value: 5, label: '9:16', scale:[9,16]},
+        { value: 6, label: '1:1', scale:[1,1]},
       ],
       option: {
         img: '', // 裁剪图片的地址
@@ -94,8 +95,8 @@ export default defineComponent({
         canMoveBox: true, // 截图框能否拖动
         autoCrop: true, // 是否默认生成截图框
         // 只有自动截图开启 宽度高度才生效
-        // autoCropWidth: 112, // 默认生成截图框宽度
-        // autoCropHeight: 144, // 默认生成截图框高度
+        autoCropWidth: 300, // 默认生成截图框宽度
+        autoCropHeight: 300, // 默认生成截图框高度
         centerBox: true, // 截图框是否被限制在图片里面
         high: false, // 是否按照设备的dpr 输出等比例图片
         enlarge: 1, // 图片根据截图框输出比例倍数

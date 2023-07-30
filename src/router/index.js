@@ -27,6 +27,9 @@ const routes = [
         name: 'memberDetail',
         path: '/member/detail',
         component: () => import('../views/member/detail.vue'),
+        meta:{
+          backRoute: {name: 'member'}
+        }
       },
       {
         name: 'page',

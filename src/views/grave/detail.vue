@@ -4,12 +4,12 @@
       ref="formContainer"
       :formDesc="formDesc"
       :defaultData="defaultData"
-      label-width="60px"
+      label-width="100px"
       input-width="200px"
     >
     </form-container>
     <div class="footer_container">
-      <el-button type="primary"  @click="submit">提 交</el-button>
+      <el-button type="primary" @click="submit">提 交</el-button>
     </div>
   </div>
 </template>
@@ -19,7 +19,7 @@ import api from '@/api';
 import { defineComponent, ref, computed } from 'vue';
 import { mapState, mapMutations } from 'vuex';
 import { ElMessage } from 'element-plus';
-import { getUrlParam } from '@/utils/Url'
+import { getUrlParam } from '@/utils/Url';
 
 export default defineComponent({
   data() {
@@ -27,21 +27,21 @@ export default defineComponent({
       detailId: '',
       defaultData: {},
       formDesc: [
-      {
-          type: 'FileUploadEditor',
-          label: '封面',
-          field: 'cover',
-          attrs: {
-            type: 'img',
-            corpper: true,
-            multiple: false,
-          },
-        },
+        // {
+        //   type: 'FileUploadEditor',
+        //   label: '封面',
+        //   field: 'cover',
+        //   attrs: {
+        //     type: 'img',
+        //     corpper: true,
+        //     multiple: false,
+        //   },
+        // },
         {
           type: 'InputEditor',
-          label: '地址',
+          label: '墓碑地址',
           field: 'address',
-          defaultValue: 'xx'
+          defaultValue: '',
         },
         {
           type: 'TextEditor',
@@ -50,26 +50,26 @@ export default defineComponent({
         },
         {
           type: 'RichEditor',
-          label: '详情',
+          label: '详情(墓志铭)',
           field: 'detail',
         },
       ],
     };
   },
 
-  created(){
-    this.detailId = this.graveInfo.id
-    this.getDetailInfo()
+  created() {
+    this.detailId = this.graveInfo.id;
+    this.getDetailInfo();
   },
   computed: {
-    ...mapState(['graveInfo'])
+    ...mapState(['graveInfo']),
   },
   methods: {
-    async getDetailInfo(){
+    async getDetailInfo() {
       let res = await api.getGraveInfo({
-        id: this.detailId
+        id: this.detailId,
       });
-      this.defaultData = res
+      this.defaultData = res;
     },
     submit() {
       this.$refs.formContainer.submitForm().then(async (res) => {
@@ -78,7 +78,7 @@ export default defineComponent({
           message: '保存成功',
           type: 'success',
         });
-        this.getDetailInfo()
+        this.getDetailInfo();
       });
     },
   },
@@ -89,7 +89,7 @@ export default defineComponent({
 .family-container {
   padding: 20px;
   background: #ffffff;
-  .footer_container{
+  .footer_container {
     // position: fixed;
     padding: 0 60px;
   }

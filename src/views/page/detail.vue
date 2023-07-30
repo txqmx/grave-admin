@@ -7,7 +7,7 @@
         :formDesc="item.fields"
         :defaultData="parseParams(item)"
         :scope-name="item.dataSource"
-        label-width="60px"
+        label-width="100px"
         input-width="200px"
       >
       </form-container>

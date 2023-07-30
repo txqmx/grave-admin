@@ -1,6 +1,7 @@
 import FormContainer from './form/form.vue'
 import InputEditor from './form/input.vue'
 import SelectEditor from './form/select.vue'
+import RadioEditor from './form/radio.vue'
 import DateEditor from './form/date.vue'
 import TextEditor from './form/text.vue'
 import FileUploadEditor from './form/fileUpload/index.vue'
@@ -17,6 +18,7 @@ const components = [
     FormContainer,
     InputEditor,
     SelectEditor,
+    RadioEditor,
     DateEditor,
     TextEditor,
     FileUploadEditor,

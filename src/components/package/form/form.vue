@@ -16,11 +16,12 @@
           <slot v-if="formItem.slot" :name="field"></slot>
           <component
             v-else
+            v-model="formData[formItem.field]"
             :is="formItem.type"
             v-bind="{ ...defaultProp, ...formItem.attrs }"
             v-on="formItem.on"
             :options="formItem._options"
-            v-model="formData[formItem.field]"
+            
           />
         </el-form-item>
       </el-col>
@@ -141,7 +142,11 @@ export default defineComponent({
       for (let i = 0; i < this.formDesc.length; i++) {
         let item = this.formDesc[i];
         if (item.field) {
-          formData[item.field] = this.defaultData[item.field] || item.defaultValue || null;
+          formData[item.field] = this.defaultData[item.field] || item.defaultValue ;
+          if(this.defaultData[item.field] === 0){
+            formData[item.field] = 0
+          }
+          
           rules[item.field] = this.initRules(item);
           if (item.options) {
             item._options = await this.initOptions(item);
@@ -155,6 +160,9 @@ export default defineComponent({
     initDefaultData() {
       this.$refs['form'].resetFields();
       for (let i in this.formData) {
+        if(this.defaultData[i] === 0){
+          this.formData[i] = 0
+        }
         this.formData[i] = this.defaultData[i] || this.formData[i];
       }
     },

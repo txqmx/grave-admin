@@ -4,7 +4,7 @@
       ref="formContainer"
       :formDesc="formDesc"
       :defaultData="defaultData"
-      label-width="60px"
+      label-width="100px"
       input-width="200px"
     >
     </form-container>
@@ -16,20 +16,15 @@
 import api from '@/api';
 import { defineComponent, ref, computed } from 'vue';
 import { ElMessage } from 'element-plus';
-import { getUrlParam } from '@/utils/Url'
+import { getUrlParam } from '@/utils/Url';
 
 export default defineComponent({
   data() {
     return {
+      detailId: this.$route.query.id,
+      type: this.$route.query.type,
       defaultData: {},
       formDesc: [
-        // {
-        //   type: 'InputEditor',
-        //   label: 'id',
-        //   field: 'id',
-        //   rules: { required: true },
-        //   attrs: { disabled: true },
-        // },
         {
           type: 'InputEditor',
           label: '名字',
@@ -38,61 +33,100 @@ export default defineComponent({
         },
         {
           type: 'InputEditor',
-          label: '编码',
-          field: 'code',
-          rules: { required: true },
+          label: '身份',
+          field: 'identity',
         },
         {
-          type: 'InputEditor',
-          label: '密码',
-          field: 'password',
+          type: 'SelectEditor',
+          label: '性别',
+          field: 'sex',
+          options: [
+            {
+              id: 1,
+              name: '男',
+            },
+            {
+              id: 0,
+              name: '女',
+            },
+          ],
         },
         {
           type: 'FileUploadEditor',
-          label: '封面',
-          field: 'cover',
+          label: '头像',
+          field: 'avatar',
           attrs: {
             type: 'img',
             corpper: true,
-            folder: 'home',
-            corpperScale: [224, 288],
           },
         },
         {
+          type: 'RadioEditor',
+          label: '是否去世',
+          field: 'is_die'
+        },
+        {
+          type: 'InputEditor',
+          label: '出生日期',
+          field: 'birth_time',
+        },
+        {
+          type: 'InputEditor',
+          label: '去世日期',
+          field: 'die_time',
+        },
+        {
           type: 'TextEditor',
-          label: '描述',
+          label: '简介',
           field: 'desc',
         },
         {
           type: 'RichEditor',
-          label: '内容',
+          label: '详情',
           field: 'detail',
         },
       ],
     };
   },
-  created(){
-    this.$store.commit('setBackRoute', {
-      name: 'graveIndex',
-    });
-  },
-  mounted() {
-    const familyCode = getUrlParam('family')
-    window.localStorage.setItem('family', familyCode)
-    this.getGenealogy();
+  created() {
+    // 设置返回路由
+    this.$store.commit('setBackRoute', this.$route.meta.backRoute);
+
+    if (this.detailId) {
+      this.getDetailInfo();
+    }
   },
   methods: {
-    async getGenealogy() {
-      this.defaultData = await api.getGenealogy({ code: getUrlParam('family') });
+    // 获取详情
+    async getDetailInfo() {
+      let dataSource = {
+        method: 'get',
+        url:
+          this.type === 'mate'
+            ? '/api/admin/mate/detail'
+            : '/api/admin/member/detail',
+      };
+      let params = {
+        id: this.detailId,
+      };
+      let res = await api.axios(dataSource, params);
+      this.defaultData = res;
     },
-    submit() {
+    // 保存
+    async submit() {
       this.$refs.formContainer.submitForm().then(async (res) => {
-        await api.updateGenealogy(res);
-        this.getGenealogy();
+        let dataSource = {
+          method: 'post',
+          url: this.type === 'mate' ? '/api/admin/mate/update': '/api/admin/member/update'
+        };
+        let params = { ...res };
+        let item = await api.axios(dataSource, params);
         ElMessage({
-          message: '修改成功',
+          message: '保存成功',
           type: 'success',
         });
+        this.$store.commit('setBackRoute', '');
+        this.$router.replace(this.$route.meta.backRoute);
       });
     },
   },

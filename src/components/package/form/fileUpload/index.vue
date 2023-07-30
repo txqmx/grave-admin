@@ -163,7 +163,7 @@ export default defineComponent({
     },
     // 关闭裁剪弹窗
     closeDialog() {
-      this.fileList.pop();
+      // this.fileList.pop();
     },
   },
 });
