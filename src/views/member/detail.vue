@@ -8,7 +8,7 @@
       input-width="200px"
     >
     </form-container>
-    <el-button @click="submit">提交</el-button>
+    <el-button type="primary" @click="submit">提交</el-button>
   </div>
 </template>
 

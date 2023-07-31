@@ -5,7 +5,7 @@
     </div>
     <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu
-        :default-active="$route.path"
+        :default-active="activeIndex"
         class="el-menu-vertical"
         :collapse="isCollapse"
         background-color="#001529"
@@ -40,14 +40,13 @@ export default defineComponent({
     return {
       showLogo: true,
       isCollapse: false,
-      activeIndex: '/grave',
     };
   },
-  created() {
-    // this.activeIndex = this.$route.path;
-  },
   computed:{
-    ...mapState(['graveInfo', 'userInfo'])
+    ...mapState(['graveInfo', 'userInfo']),
+    activeIndex(){
+      return this.$route?.meta?.activeMenu || this.$route.path
+    }
   },
 });
 </script>

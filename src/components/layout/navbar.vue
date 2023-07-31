@@ -32,7 +32,7 @@
 <script>
 import { computed, defineComponent, onMounted } from 'vue';
 import { Back,ArrowDown } from '@element-plus/icons-vue';
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapMutations,mapActions } from 'vuex';
 export default defineComponent({
   name: 'navbar',
   components: { Back, ArrowDown },
@@ -46,16 +46,9 @@ export default defineComponent({
   },
   methods: {
     ...mapMutations(['setUserInfo', 'setGraveInfo']),
+    ...mapActions(['logout']),
     goBack() {
       this.$router.replace(this.backRoute);
-    },
-    logout(){
-      this.setUserInfo('')
-      this.setGraveInfo('')
-      window.localStorage.removeItem('token')
-      this.$router.replace({
-        name: 'login'
-      })
     }
   },
 });

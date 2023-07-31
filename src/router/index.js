@@ -23,7 +23,8 @@ const routes = [
         path: '/grave/detail',
         component: () => import('../views/grave/detail.vue'),
         meta:{
-          backRoute: {name: 'grave'}
+          backRoute: {name: 'grave'},
+          activeMenu: '/grave'
         }
       },
       {
@@ -36,7 +37,8 @@ const routes = [
         path: '/member/detail',
         component: () => import('../views/member/detail.vue'),
         meta:{
-          backRoute: {name: 'member'}
+          backRoute: {name: 'member'},
+          activeMenu: '/member'
         }
       },
       {
@@ -49,7 +51,8 @@ const routes = [
         path: '/page/detail',
         component: () => import('../views/page/detail.vue'),
         meta:{
-          backRoute: {name: 'page'}
+          backRoute: {name: 'page'},
+          activeMenu: '/page'
         }
       },
       {
@@ -62,7 +65,8 @@ const routes = [
         path: '/pageTemplate/detail',
         component: () => import('../views/pageTemplate/detail.vue'),
         meta:{
-          backRoute: {name: 'pageTemplate'}
+          backRoute: {name: 'pageTemplate'},
+          activeMenu: '/pageTemplate'
         }
       },
       {

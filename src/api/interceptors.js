@@ -1,6 +1,6 @@
 import { ElMessage } from 'element-plus';
 import { getUrlParam } from '@/utils/Url'
-import router from '@/router'
+import store from '@/store';
 
 export function resSuccess (response) {
     return new Promise((resolve, reject) => {
@@ -13,9 +13,7 @@ export function resSuccess (response) {
           duration: 3 * 1000
         })
         if(response.data.code === 2){
-          router.replace({
-            name: 'grave'
-          })
+          store.dispatch('exit')
         }
         reject(response.data)
       }
@@ -33,9 +31,7 @@ export function resError (error) {
     })
   }
   if(response.status === 401){
-    router.replace({
-      name: 'login'
-    })
+    store.dispatch('logout')
   }
   return Promise.reject(error)
 }

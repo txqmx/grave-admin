@@ -49,5 +49,21 @@
       }
     ],
     "dataSource": "grave_home_detail_data"
+  },
+  {
+    "name": "图片位1",
+    "component": "GraveImgView",
+    "fields": [
+      {
+        "type": "FileUploadEditor",
+        "label": "图片",
+        "field": "img",
+        "attrs": {
+          "type": "img",
+          "multiple": false
+        }
+      }
+    ],
+    "dataSource": "grave_home_img1"
   }
 ]

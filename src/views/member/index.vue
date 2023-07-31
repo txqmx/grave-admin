@@ -130,7 +130,6 @@ export default defineComponent({
     },
     // 编辑
     handleEdit(row,type) { 
-      console.log(row)
       this.$router.push({
         name: 'memberDetail',
         query:{
@@ -142,6 +141,10 @@ export default defineComponent({
     // 添加
     handleAdd(type) {
       this.addType = type;
+      this.defaultData = {
+        identity: '配偶',
+        sex: this.currentRow.sex === 1 ? 0: 1
+      };
       this.showModal = true;
     },
     close() {

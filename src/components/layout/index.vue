@@ -23,7 +23,7 @@ import { computed, defineComponent, onMounted } from 'vue'
 import { SwitchButton } from '@element-plus/icons-vue';
 import Navbar from './navbar.vue';
 import AppMain from './appMain.vue';
-import { mapState,mapMutations } from 'vuex'
+import { mapState,mapMutations,mapActions } from 'vuex'
 export default defineComponent({
     name: 'layout',
     components: { Sidebar, Navbar, AppMain,SwitchButton },
@@ -32,12 +32,7 @@ export default defineComponent({
     },
     methods:{
       ...mapMutations(['setGraveInfo']),
-      exit(){
-        this.setGraveInfo('')
-        this.$router.replace({
-        name: 'grave'
-      })
-      }
+      ...mapActions(['exit']),
     }
 
 
