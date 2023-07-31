@@ -11,7 +11,7 @@
       </template>
       <template #columnAction="scope">
         <el-button type="text" @click="handSelect(scope.row)"
-          >进入详情</el-button
+          >选中</el-button
         >
         <el-button type="text" @click="handEdit(scope.row)">编辑</el-button>
         <el-popover
@@ -61,10 +61,6 @@ export default defineComponent({
       showModal: false,
       tableDesc: [
         {
-          prop: "id",
-          label: "id",
-        },
-        {
           prop: "name",
           label: "名字",
           defaultVaule: (row) => {
@@ -103,17 +99,16 @@ export default defineComponent({
           field: "name",
           rules: { required: true },
         },
-        {
-          type: "InputEditor",
-          label: "密码",
-          field: "password",
-        },
+        // {
+        //   type: "InputEditor",
+        //   label: "密码",
+        //   field: "password",
+        // },
       ],
       qrcode:{}
     };
   },
   mounted() {
-    this.setGraveInfo("");
     this.getTableList();
   },
   methods: {
@@ -124,15 +119,19 @@ export default defineComponent({
     },
     // 编辑
     handEdit(row) {
-      this.defaultData = { ...row };
-      this.showModal = true;
+      // this.defaultData = { ...row };
+      // this.showModal = true;
+      this.$router.push({
+        name: 'graveDetail',
+        query: { id: row.id },
+      });
     },
     // 选择
     handSelect(row) {
       this.setGraveInfo(row);
-      this.$router.push({
-        name: "home",
-      });
+      // this.$router.push({
+      //   name: "home",
+      // });
     },
     // 新增
     handleAdd() {

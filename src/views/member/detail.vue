@@ -89,9 +89,6 @@ export default defineComponent({
     };
   },
   created() {
-    // 设置返回路由
-    this.$store.commit('setBackRoute', this.$route.meta.backRoute);
-
     if (this.detailId) {
       this.getDetailInfo();
     }
@@ -125,7 +122,6 @@ export default defineComponent({
           message: '保存成功',
           type: 'success',
         });
-        this.$store.commit('setBackRoute', '');
         this.$router.replace(this.$route.meta.backRoute);
       });
     },

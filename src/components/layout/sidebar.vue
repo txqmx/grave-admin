@@ -5,26 +5,26 @@
     </div>
     <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu
-        :default-active="activeIndex"
+        :default-active="$route.path"
         class="el-menu-vertical"
         :collapse="isCollapse"
         background-color="#001529"
         text-color="#fff"
         router
       >
-        <el-menu-item index="/grave/detail">
-          <template #title>基本信息</template>
+        <el-menu-item index="/grave">
+          <template #title>墓碑管理</template>
         </el-menu-item>
-        <el-menu-item index="/member">
+        <el-menu-item v-if="graveInfo.id" index="/member">
           <template #title>人物关系</template>
         </el-menu-item>
-        <el-menu-item index="/page">
+        <el-menu-item v-if="graveInfo.id" index="/page">
           <template #title>页面配置</template>
         </el-menu-item>
-        <el-menu-item index="/pageTemplate">
+        <el-menu-item v-if="userInfo.root" index="/pageTemplate">
           <template #title>页面模板</template>
         </el-menu-item>
-        <el-menu-item index="/admin">
+        <el-menu-item v-if="userInfo.root" index="/admin">
           <template #title>管理员设置</template>
         </el-menu-item>
       </el-menu>
@@ -36,18 +36,18 @@ import { computed, defineComponent, onMounted } from 'vue';
 import { mapState } from 'vuex'
 export default defineComponent({
   name: 'sidevar',
-  created() {
-    this.activeIndex = this.$route.path;
-  },
-  computed:{
-    ...mapState(['graveInfo'])
-  },
   data() {
     return {
       showLogo: true,
       isCollapse: false,
-      activeIndex: '/grave/detail',
+      activeIndex: '/grave',
     };
+  },
+  created() {
+    // this.activeIndex = this.$route.path;
+  },
+  computed:{
+    ...mapState(['graveInfo', 'userInfo'])
   },
 });
 </script>

@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import Layout from '../components/layout/index.vue';
-import graveLayout from '../components/layout/graveLayout.vue';
+import store from '@/store';
 import { ElMessage } from 'element-plus';
 
 const routes = [
@@ -11,12 +11,20 @@ const routes = [
     meta: {
       title: '首页',
     },
-    redirect: '/grave/detail',
+    redirect: '/grave',
     children: [
+      {
+        name: 'grave',
+        path: '/grave',
+        component: () => import('../views/grave/index.vue'),
+      },
       {
         name: 'graveDetail',
         path: '/grave/detail',
         component: () => import('../views/grave/detail.vue'),
+        meta:{
+          backRoute: {name: 'grave'}
+        }
       },
       {
         name: 'member',
@@ -65,22 +73,6 @@ const routes = [
     ],
   },
   {
-    name: 'grave',
-    path: '/',
-    component: graveLayout,
-    meta: {
-      title: '墓碑管理',
-    },
-    redirect: '/grave',
-    children: [
-      {
-        name: 'graveIndex',
-        path: '/grave',
-        component: () => import('../views/grave/index.vue'),
-      }
-    ],
-  },
-  {
     name: 'login',
     path: '/login',
     meta: {
@@ -96,9 +88,11 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  store.commit('setBackRoute', '')
   let token = window.localStorage.getItem('token')
   let userInfo = window.localStorage.getItem('userInfo')
   let graveInfo = window.localStorage.getItem('graveInfo')
+  let includeGrave = ['/member', '/member/detail', '/page', '/page/detail']
   if((!token || !userInfo) && to.path !== '/login'){
     ElMessage({
       message: '请登录',
@@ -106,7 +100,7 @@ router.beforeEach((to, from, next) => {
       duration: 3 * 1000
     })
     next('/login');
-  } else if(!graveInfo && to.path !== '/grave'  && to.path !== '/login'){
+  } else if(!graveInfo && includeGrave.includes(to.path)){
     ElMessage({
       message: '请选择',
       type: 'error',
@@ -114,6 +108,9 @@ router.beforeEach((to, from, next) => {
     })
     next('/grave');
   } else{
+    if(to.meta.backRoute){
+      store.commit('setBackRoute', to.meta.backRoute)
+    }
     next();
   }
   

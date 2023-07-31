@@ -51,7 +51,7 @@ export default {
           window.localStorage.setItem('token', res.token)
           await this.getUserInfo()
           this.$router.push({
-            name: 'graveIndex'
+            name: 'grave'
           })
         } 
       })

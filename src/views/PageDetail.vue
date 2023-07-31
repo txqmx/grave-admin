@@ -80,9 +80,6 @@ export default defineComponent({
     };
   },
   mounted() {
-    this.$store.commit('setBackRoute', {
-      name: 'PageList',
-    });
     this.getPageDetail();
   },
   created() {

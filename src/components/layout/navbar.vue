@@ -45,10 +45,9 @@ export default defineComponent({
     ...mapState(['backRoute','userInfo']),
   },
   methods: {
-    ...mapMutations(['setBackRoute','setUserInfo', 'setGraveInfo']),
+    ...mapMutations(['setUserInfo', 'setGraveInfo']),
     goBack() {
-      this.$router.push(this.backRoute);
-      this.setBackRoute('')
+      this.$router.replace(this.backRoute);
     },
     logout(){
       this.setUserInfo('')

@@ -3,9 +3,9 @@
       <Sidebar></Sidebar>
       <div class="main-container">
         <Navbar>
-          <template v-slot:title> 
-            <span class="nav_msg">名字：{{graveInfo?.name}}</span>
-            <span class="nav_msg">编码：{{graveInfo?.code}}</span>
+          <template v-if="graveInfo" v-slot:title> 
+            <span class="nav_msg">墓碑名称：{{graveInfo?.name}}</span>
+            <span class="nav_msg">墓碑编码：{{graveInfo?.code}}</span>
           </template>
           <template v-slot:action>
           <div class="close">

@@ -17,14 +17,14 @@
 <script>
 import api from '@/api';
 import { defineComponent, ref, computed } from 'vue';
-import { mapState, mapMutations } from 'vuex';
 import { ElMessage } from 'element-plus';
+import { mapMutations, mapState } from "vuex";
 import { getUrlParam } from '@/utils/Url';
 
 export default defineComponent({
   data() {
     return {
-      detailId: '',
+      detailId: this.$route.query.id,
       defaultData: {},
       formDesc: [
         // {
@@ -36,6 +36,26 @@ export default defineComponent({
         //     corpper: true,
         //     multiple: false,
         //   },
+        // },
+        {
+          type: "InputEditor",
+          label: "编码",
+          field: "code",
+          rules: { required: true },
+          attrs: {
+            disabled: true,
+          },
+        },
+        {
+          type: "InputEditor",
+          label: "名字",
+          field: "name",
+          rules: { required: true },
+        },
+        // {
+        //   type: "InputEditor",
+        //   label: "密码",
+        //   field: "password",
         // },
         {
           type: 'InputEditor',
@@ -57,14 +77,16 @@ export default defineComponent({
     };
   },
 
-  created() {
-    this.detailId = this.graveInfo.id;
-    this.getDetailInfo();
+  async created() {
+    if (this.detailId) {
+      await this.getDetailInfo();
+    }
   },
-  computed: {
-    ...mapState(['graveInfo']),
+  computed:{
+    ...mapState(['graveInfo'])
   },
   methods: {
+    ...mapMutations(["setGraveInfo"]),
     async getDetailInfo() {
       let res = await api.getGraveInfo({
         id: this.detailId,
@@ -72,13 +94,17 @@ export default defineComponent({
       this.defaultData = res;
     },
     submit() {
-      this.$refs.formContainer.submitForm().then(async (res) => {
-        await api.updateGrave(res);
+      this.$refs.formContainer.submitForm().then(async (params) => {
+        let res = await api.updateGrave(params);
         ElMessage({
           message: '保存成功',
           type: 'success',
         });
-        this.getDetailInfo();
+        if(this.graveInfo.id === res.id){
+          this.setGraveInfo(res)
+        }
+
+        this.$router.replace(this.$route.meta.backRoute);
       });
     },
   },

@@ -59,9 +59,6 @@ export default defineComponent({
     };
   },
   created() {
-    this.$store.commit('setBackRoute', {
-      name: 'ComponentList',
-    });
     this.getPageDetail();
   },
   methods: {
