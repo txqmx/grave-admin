@@ -6,8 +6,9 @@
       :config="tableConfig"
       @add="handleAdd"
     >
-      <template #tableAction>
+      <template #tableAction="scope">
         <el-button type="primary" @click="handleAdd">新增</el-button>
+        可创建数量({{ scope.total+ '/' + userInfo.grave_limit }})
       </template>
       <template #columnAction="scope">
         <el-button type="text" @click="handSelect(scope.row)"
@@ -54,7 +55,7 @@
 import { defineComponent } from "vue";
 import { ElMessage } from "element-plus";
 import api from "@/api";
-import { mapMutations } from "vuex";
+import { mapState,mapMutations } from "vuex";
 export default defineComponent({
   data() {
     return {
@@ -110,6 +111,9 @@ export default defineComponent({
   },
   mounted() {
     this.getTableList();
+  },
+  computed:{
+    ...mapState(['userInfo']),
   },
   methods: {
     ...mapMutations(["setGraveInfo"]),

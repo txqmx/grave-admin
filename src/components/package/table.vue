@@ -1,7 +1,7 @@
 <template>
   <div class="base-table">
     <div class="table-action">
-      <slot name="tableAction"></slot>
+      <slot name="tableAction" :total="tableList.length"></slot>
     </div>
     <el-table :data="tableList">
       <el-table-column label="序号" type="index" width="60" />

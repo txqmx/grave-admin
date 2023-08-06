@@ -65,5 +65,21 @@
       }
     ],
     "dataSource": "grave_home_img1"
+  },
+  {
+    "name": "首页音频",
+    "component": "GraveAudioView",
+    "fields": [
+      {
+        "type": "FileUploadEditor",
+        "label": "音频文件",
+        "field": "img",
+        "attrs": {
+          "type": "img",
+          "multiple": false
+        }
+      }
+    ],
+    "dataSource": "grave_home_audio"
   }
 ]

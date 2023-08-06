@@ -3,7 +3,7 @@ import { resSuccess,resError,reqSuccess } from './interceptors'
 
 // let baseUrl = '';
 export let baseUrl = 'http://localhost:7001'
-// export let baseUrl = 'http://test.zongxintang.com'
+// export let baseUrl = 'http://mingzhi.zongxintang.com'
 // export let baseUrl = 'https://family.zongxintang.com'
 
 const request = axios.create({

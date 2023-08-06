@@ -6,7 +6,7 @@ import { ElMessage } from 'element-plus';
 const routes = [
   {
     name: 'home',
-    path: '/home',
+    path: '/',
     component: Layout,
     meta: {
       title: '首页',

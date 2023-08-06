@@ -21,7 +21,7 @@
         :formDesc="formDesc"
         :defaultData="defaultData"
         :row="1"
-        label-width="80px"
+        label-width="100px"
         input-width="200px"
       >
       </form-container>
@@ -32,6 +32,7 @@
 <script>
 import { defineComponent, ref, computed } from 'vue';
 import { ElMessage } from 'element-plus';
+import { mapState,mapActions } from 'vuex';
 import api from '@/api';
 export default defineComponent({
   data() {
@@ -39,15 +40,23 @@ export default defineComponent({
       showModal: false,
       tableDesc: [
         {
+          prop: 'user_name',
+          label: '用户名',
+        },
+        {
           prop: 'name',
-          label: '名字',
+          label: '别名',
           defaultVaule: (row) => {
             return row['name'];
           },
         },
         {
-          prop: 'user_name',
-          label: '用户名',
+          prop: 'phone',
+          label: '电话',
+        },
+        {
+          prop: 'grave_limit',
+          label: '墓碑数量',
         },
         {
           prop: 'remark',
@@ -91,8 +100,28 @@ export default defineComponent({
         },
         {
           type: 'InputEditor',
-          label: '别名',
+          label: '公司名',
           field: 'name',
+          rules: { required: true },
+        },
+        {
+          type: 'InputEditor',
+          label: '电话',
+          field: 'phone',
+          rules: { required: true },
+        },
+        {
+          type: 'InputEditor',
+          label: '墓碑数量',
+          field: 'grave_limit',
+          attrs:{
+            type: 'number'
+          }
+        },
+        {
+          type: 'TextEditor',
+          label: '备注',
+          field: 'remark',
         },
         
       ],
@@ -102,7 +131,12 @@ export default defineComponent({
   mounted() {
     this.getTableList();
   },
+  computed: {
+    ...mapState(['userInfo']),
+  },
+  
   methods: {
+    ...mapActions(['getUserInfo']),
     // 获取列表
     getTableList() {
       this.$refs.tableContainer.getTableList();
@@ -136,6 +170,9 @@ export default defineComponent({
           message: '保存成功',
           type: 'success',
         });
+        if(this.defaultData.id && this.defaultData.id === this.userInfo.id){
+          this.getUserInfo()
+        }
         this.close()
         this.getTableList()
       });
