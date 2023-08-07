@@ -77,6 +77,11 @@ const routes = [
     ],
   },
   {
+    name: 'graveMobile',
+    path: '/graveMobile',
+    component: () => import('../views/grave/graveMobile.vue'),
+  },
+  {
     name: 'login',
     path: '/login',
     meta: {
@@ -110,7 +115,11 @@ router.beforeEach((to, from, next) => {
       type: 'error',
       duration: 3 * 1000
     })
-    next('/grave');
+    if(window.isMobile){
+      next('/graveMobile');
+    } else {
+      next('/grave');
+    }
   } else{
     if(to.meta.backRoute){
       store.commit('setBackRoute', to.meta.backRoute)
