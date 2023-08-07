@@ -17,10 +17,10 @@
         <el-button type="text" @click="handEdit(scope.row)">编辑</el-button>
         <el-popover
           placement="top"
-          :width="200"
+          :width="100"
           trigger="click"
         >
-        <div>
+        <div class="popover_container">
           <el-image style="width: 100px; height: 100px" :src="qrcode.qr_code" :fit="fit" />
         </div>
           <template #reference>
@@ -46,6 +46,13 @@
         label-width="80px"
         input-width="200px"
       >
+      <template #code="{data}">
+        <el-input style="width: 200px" v-model=data.code>
+          <template #prepend>{{userInfo.code}}</template>
+        </el-input>
+        <el-button type="text" @click="autoCreate(data)">随机生成</el-button>
+      </template>
+      
       </form-container>
     </dialog-container>
   </div>
@@ -88,6 +95,7 @@ export default defineComponent({
           label: "编码",
           field: "code",
           rules: { required: true },
+          slot: true,
           attrs: {
             disabled: (row) => {
               return !!row.id;
@@ -139,6 +147,9 @@ export default defineComponent({
     },
     // 新增
     handleAdd() {
+      this.defaultData = {
+        code: this.random()
+      }
       this.showModal = true;
     },
     // 提交
@@ -147,6 +158,8 @@ export default defineComponent({
         let apiUrl = "createGrave";
         if (this.defaultData.id) {
           apiUrl = "updateGrave";
+        } else {
+          res.code = this.userInfo.code + res.code
         }
         await api[apiUrl](res);
         ElMessage({
@@ -167,8 +180,27 @@ export default defineComponent({
       let res = await api.getQrcode({ id: row.id });
       this.qrcode = res || {};
     },
+    // 生成随机数
+    random(){
+      return Math.round(Math.random() * 100000000)
+    },
+    // 自动生成编码
+    autoCreate(formData){
+      formData.code = this.random()
+    }
   },
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+
+.popover_container{
+  width: 100%;
+}
+</style>
+
+<style>
+.el-popover.el-popper{
+  min-width: 100px;
+}
+</style>

@@ -110,6 +110,7 @@ export default defineComponent({
   margin-bottom: 20px;
 
   .table-action {
+    color: #606266;
     margin-bottom: 16px;
   }
 }

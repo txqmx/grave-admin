@@ -1,6 +1,6 @@
 <template>
   <div class="grave_mobile_container">
-    <div class="grave_navbar">xxx管理系统</div>
+    <div class="grave_navbar">铭志码管理系统</div>
     <div class="grave_content">
       <div class="content_card">
         <div class="title">管理员信息</div>

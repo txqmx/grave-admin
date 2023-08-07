@@ -13,7 +13,7 @@
         :span="24 / (formItem.row || row)"
       >
         <el-form-item :label="formItem.label" :prop="formItem.field">
-          <slot v-if="formItem.slot" :name="field"></slot>
+          <slot v-if="formItem.slot" :name="formItem.field" :data='formData'></slot>
           <component
             v-else
             v-model="formData[formItem.field]"

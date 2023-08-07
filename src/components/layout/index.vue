@@ -50,7 +50,7 @@ export default defineComponent({
   overflow: hidden;
   .main-container{
     transition: margin-left 0.28s;
-    padding-left: 150px;
+    padding-left: 170px;
     box-sizing: border-box;
     width: 100%;
     height: 100%;

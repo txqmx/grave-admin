@@ -2,7 +2,7 @@
   <div class="login-wrapper">
     <div class="modal">
       <el-form ref='userForm' :model="user" status-icon :rules="rules">
-        <div class="title">xx管理系统</div>
+        <div class="title">铭志码管理系统</div>
         <el-form-item prop="user_name">
           <el-input type="text" prefix-icon="el-icon-user" v-model="user.user_name" placeholder="请输入用户名"></el-input>
         </el-form-item>
@@ -77,9 +77,9 @@ export default {
   width: 100vw;
   height: 100vh;
   .modal{
-    width: 500px;
+    width: 400px;
     margin: 0 20px;
-    padding: 30px 50px;
+    padding: 30px 30px;
     background-color: #ffffff;
     border-radius: 4px;
     box-shadow: 0px 0px 10px 3px #c7c9cb4d;

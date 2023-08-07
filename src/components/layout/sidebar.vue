@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar-container">
     <div class="logo">
-      <span>xx管理系统</span>
+      <span>铭志码管理系统</span>
     </div>
     <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu
@@ -53,7 +53,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .sidebar-container {
   position: fixed;
-  width: 150px;
+  width: 170px;
   height: 100vh;
   background-color: #001529;
   overflow-y: auto;
@@ -75,7 +75,7 @@ export default defineComponent({
 }
 
 .el-menu-vertical:not(.el-menu--collapse) {
-  width: 151px;
+  width: 171px;
   min-height: 400px;
   text-align: left;
 }

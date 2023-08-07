@@ -45,9 +45,18 @@ export default defineComponent({
         },
         {
           prop: 'name',
-          label: '别名',
+          label: '公司名',
           defaultVaule: (row) => {
             return row['name'];
+          },
+        },
+        {
+          prop: 'code',
+          label: '编码',
+          attrs: {
+            disabled: (row) => {
+              return !!row.id;
+            },
           },
         },
         {
@@ -102,6 +111,12 @@ export default defineComponent({
           type: 'InputEditor',
           label: '公司名',
           field: 'name',
+          rules: { required: true },
+        },
+        {
+          type: 'InputEditor',
+          label: '编码',
+          field: 'code',
           rules: { required: true },
         },
         {
