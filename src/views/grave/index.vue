@@ -22,11 +22,13 @@
         >
         <div class="popover_container">
           <el-image style="width: 100px; height: 100px" :src="qrcode.qr_code" :fit="fit" />
+          <div>
+            <el-button type="text" @click="downloadQrcode(scope.row)">下载</el-button>
+            <el-button type="text" @click="downloadQrcode()">预览</el-button>
+          </div>
         </div>
           <template #reference>
-            <el-button type="text" @click="showQrcode(scope.row)"
-              >二维码</el-button
-            >
+            <el-button type="text" @click="showQrcode(scope.row)">二维码</el-button>
           </template>
         </el-popover>
       </template>
@@ -61,6 +63,7 @@
 <script>
 import { defineComponent } from "vue";
 import { ElMessage } from "element-plus";
+import {downloadFileByBase64} from '@/utils/download'
 import api from "@/api";
 import { mapState,mapMutations } from "vuex";
 export default defineComponent({
@@ -180,6 +183,12 @@ export default defineComponent({
       let res = await api.getQrcode({ id: row.id });
       this.qrcode = res || {};
     },
+    // 下载二维码
+    downloadQrcode(row){
+      if(this.qrcode&& this.qrcode.qr_code){
+        downloadFileByBase64(this.qrcode.qr_code, row.name)
+      }
+    },
     // 生成随机数
     random(){
       return Math.round(Math.random() * 100000000)
@@ -196,6 +205,7 @@ export default defineComponent({
 
 .popover_container{
   width: 100%;
+  text-align: center;
 }
 </style>
 
