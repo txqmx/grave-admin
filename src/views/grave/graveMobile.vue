@@ -1,14 +1,16 @@
 <template>
   <div class="grave_mobile_container">
-    <div class="grave_navbar">铭志码管理系统</div>
+    <div class="grave_navbar">铭志码管理系统 </div>
+    <el-alert title="此页面仅提供展示,请前往PC端进行编辑" type="warning" show-icon :closable="false"/>
     <div class="grave_content">
       <div class="content_card">
-        <div class="title">管理员信息</div>
+        <div class="title">管理员信息 <el-button type="text" @click="logout()"
+                  >退出登录</el-button></div>
         <div class="content">
           <el-row>
-            <el-col :span="24">用户名: {{ userInfo.user_name || '-' }}</el-col>
-            <el-col :span="24"> 编码: {{ userInfo.code || '-' }} </el-col>
-            <el-col :span="24"> 别名: {{ userInfo.name || '-' }} </el-col>
+            <el-col :span="24"><label>用户名:</label> {{ userInfo.user_name || '-' }}</el-col>
+            <el-col :span="24"> <label>编码:</label> {{ userInfo.code || '-' }} </el-col>
+            <el-col :span="24"> <label>别名:</label> {{ userInfo.name || '-' }} </el-col>
           </el-row>
         </div>
       </div>
@@ -36,11 +38,15 @@
     </div>
 
     <el-dialog v-model="showModal" width="80%" align-center>
-      <el-image
-        style="width: 100%; height: 100%"
-        :src="qrcode.qr_code"
-        :fit="fit"
-      />
+      <div class="pre_container">
+        <el-image
+          style="width: 100%; height: 100%"
+          :src="qrcode.qr_code"
+          :fit="fit"
+        />
+        <el-button type="text" @click="preview">点击跳转</el-button>
+      </div>
+      
     </el-dialog>
   </div>
 </template>
@@ -49,7 +55,7 @@
 import { defineComponent } from 'vue';
 import { ElMessage } from 'element-plus';
 import api from '@/api';
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapMutations,mapActions } from 'vuex';
 export default defineComponent({
   data() {
     return {
@@ -66,6 +72,7 @@ export default defineComponent({
   },
   methods: {
     ...mapMutations(['setGraveInfo']),
+    ...mapActions(['logout']),
 
     // 获取列表
     async getTableList() {
@@ -83,6 +90,13 @@ export default defineComponent({
       this.qrcode = res || {};
       this.showModal = true;
     },
+    
+    async preview(){
+      if(this.qrcode && this.qrcode.url){
+        window.location.href = this.qrcode.url
+      }
+      
+    }
   },
 });
 </script>
@@ -105,7 +119,7 @@ export default defineComponent({
     font-weight: 600;
   }
   .grave_content{
-    height: calc(100% - 50px);
+    height: calc(100% - 85px);
     box-sizing: border-box;
     overflow: auto;
     padding-top: 20px;
@@ -135,6 +149,12 @@ export default defineComponent({
           line-height: 40px;
           padding-left: 10px;
           border-bottom: 1px solid #ebedf0;
+          label {
+            text-align: left;
+            width: 46px;
+            display: inline-block;
+            margin-right: 5px;
+          }
           &:last-child{
             border-bottom: none;
             padding-bottom: 0;
@@ -143,6 +163,9 @@ export default defineComponent({
       }
     }
   }
+  }
+  .pre_container{
+    text-align: center;
   }
 
   

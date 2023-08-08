@@ -14,6 +14,7 @@ export default defineComponent({
         ...mapMutations(['setUserInfo', 'setGraveInfo']),
 
         setUserLocalInfo(name){
+
             let item = window.localStorage.getItem('userInfo')
             if(item){
                 this.setUserInfo(JSON.parse(item))

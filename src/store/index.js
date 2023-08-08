@@ -52,15 +52,9 @@ const actions = {
     // 退出墓碑选中
     async exit({commit}){
         commit('setGraveInfo', '')
-        if(window.isMobile){
-            router.replace({
-                name: 'graveMobile'
-            })
-        } else{
-            router.replace({
-                name: 'grave'
-            })
-        }
+        router.replace({
+            name: 'grave'
+        })
         
     }
 }

@@ -50,15 +50,9 @@ export default {
           let res = await api.login(params)
           window.localStorage.setItem('token', res.token)
           await this.getUserInfo()
-          if(window.isMobile){
-            this.$router.push({
-            name: 'graveMobile',
-          })
-          } else {
-            this.$router.push({
+          this.$router.push({
             name: 'grave'
           })
-          }
           
         } 
       })

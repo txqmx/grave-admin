@@ -24,7 +24,7 @@
           <el-image style="width: 100px; height: 100px" :src="qrcode.qr_code" :fit="fit" />
           <div>
             <el-button type="text" @click="downloadQrcode(scope.row)">下载</el-button>
-            <el-button type="text" @click="downloadQrcode()">预览</el-button>
+            <el-button type="text" @click="preview()">预览</el-button>
           </div>
         </div>
           <template #reference>
@@ -196,6 +196,9 @@ export default defineComponent({
     // 自动生成编码
     autoCreate(formData){
       formData.code = this.random()
+    },
+    preview(){
+      
     }
   },
 });

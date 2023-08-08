@@ -109,17 +109,15 @@ router.beforeEach((to, from, next) => {
       duration: 3 * 1000
     })
     next('/login');
+  } else if(window.isMobile && to.path !== '/login' && to.path !== '/graveMobile'){
+    next('/graveMobile');
   } else if(!graveInfo && includeGrave.includes(to.path)){
     ElMessage({
       message: '请选择',
       type: 'error',
       duration: 3 * 1000
     })
-    if(window.isMobile){
-      next('/graveMobile');
-    } else {
-      next('/grave');
-    }
+    next('/grave');
   } else{
     if(to.meta.backRoute){
       store.commit('setBackRoute', to.meta.backRoute)
