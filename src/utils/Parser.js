@@ -23,8 +23,8 @@ export const lvDataParser = async (oriData, prop) => {
 }
 
 const code = getUrlParam('family') || localStorage.getItem('family')
-const baseUrl = `http://mingzhi.zongxintang.com/upload/`
-// const baseUrl = `http://127.0.0.1:7001/upload/`
+// const baseUrl = `http://mingzhi.zongxintang.com/upload/`
+const baseUrl = `http://127.0.0.1:7001/upload/`
 
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types

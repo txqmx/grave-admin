@@ -4,31 +4,13 @@
     "component": "GraveMemberView",
     "fields": [
       {
-        "type": "InputEditor",
-        "label": "头像",
-        "field": "avatar",
-        "defaultValue": "$model.Member?is_master=1.avatar",
-        "rules": {
-          "required": true
-        },
-        "attrs": {
-          "disabled": true
-        }
-      },
-      {
-        "type": "InputEditor",
-        "label": "名字",
-        "field": "name",
-        "defaultValue": "$model.Member?is_master=1.name",
-        "rules": {
-          "required": true
-        },
-        "attrs": {
-          "disabled": true
-        }
+        "type": "RadioEditor",
+        "label": "是否包含配偶",
+        "field": "includeMate",
+        "defaultValue": 0
       }
     ],
-    "dataSource": "memberData"
+    "dataSource": "grave_home_member_data"
   },
   {
     "name": "幻灯片",
@@ -38,31 +20,76 @@
         "type": "FileUploadEditor",
         "label": "图片",
         "field": "imgs",
-        "rules": {
-          "required": true
-        },
         "attrs": {
           "type": "img",
           "multiple": true
         }
       }
     ],
-    "dataSource": "imgsData"
+    "dataSource": "grave_home_swiper_data"
   },
   {
-    "name": "墓碑介绍",
+    "name": "墓志铭",
     "component": "GraveDeatilView",
     "fields": [
       {
         "type": "InputEditor",
-        "label": "内容",
+        "label": "墓志铭",
         "field": "detail",
         "defaultValue": "$model.Grave.detail",
-        "rules": {
-          "required": true
+        "attrs": {
+          "disabled": true
         }
       }
     ],
-    "dataSource": "graveDtaile"
+    "dataSource": "grave_home_detail_data"
+  },
+  {
+    "name": "图片位1",
+    "component": "GraveImgView",
+    "fields": [
+      {
+        "type": "FileUploadEditor",
+        "label": "图片",
+        "field": "img",
+        "attrs": {
+          "type": "img",
+          "multiple": false
+        }
+      }
+    ],
+    "dataSource": "grave_home_img1_data"
+  },
+  {
+    "name": "首页音频",
+    "component": "GraveAudioView",
+    "fields": [
+      {
+        "type": "FileUploadEditor",
+        "label": "音频文件",
+        "field": "audioUrl",
+        "attrs": {
+          "type": "file",
+          "multiple": false
+        }
+      }
+    ],
+    "dataSource": "grave_home_audio_data"
+  },
+  {
+    "name": "首页视频",
+    "component": "GraveVideoView",
+    "fields": [
+      {
+        "type": "FileUploadEditor",
+        "label": "视频文件",
+        "field": "videoUrl",
+        "attrs": {
+          "type": "file",
+          "multiple": false
+        }
+      }
+    ],
+    "dataSource": "grave_home_video_data"
   }
 ]
