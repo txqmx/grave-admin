@@ -39,11 +39,7 @@ export default defineComponent({
     return {
       showModal: false,
       tableDesc: [
-        {
-          prop: 'user_name',
-          label: '用户名',
-        },
-        {
+        { 
           prop: 'name',
           label: '公司名',
           defaultVaule: (row) => {
@@ -53,12 +49,12 @@ export default defineComponent({
         {
           prop: 'code',
           label: '编码',
-          attrs: {
-            disabled: (row) => {
-              return !!row.id;
-            },
-          },
         },
+        {
+          prop: 'user_name',
+          label: '用户名',
+        },
+        
         {
           prop: 'phone',
           label: '电话',
@@ -97,18 +93,6 @@ export default defineComponent({
       formDesc: [
         {
           type: 'InputEditor',
-          label: '用户名',
-          field: 'user_name',
-          rules: { required: true },
-        },
-        {
-          type: 'InputEditor',
-          label: '密码',
-          field: 'password',
-          rules: { required: true },
-        },
-        {
-          type: 'InputEditor',
           label: '公司名',
           field: 'name',
           rules: { required: true },
@@ -117,6 +101,23 @@ export default defineComponent({
           type: 'InputEditor',
           label: '编码',
           field: 'code',
+          rules: { required: true },
+          attrs: {
+            disabled: (row) => {
+              return !!row.id;
+            },
+          },
+        },
+        {
+          type: 'InputEditor',
+          label: '用户名',
+          field: 'user_name',
+          rules: { required: true },
+        },
+        {
+          type: 'InputEditor',
+          label: '密码',
+          field: 'password',
           rules: { required: true },
         },
         {

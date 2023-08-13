@@ -111,11 +111,11 @@ export default defineComponent({
           field: "name",
           rules: { required: true },
         },
-        // {
-        //   type: "InputEditor",
-        //   label: "密码",
-        //   field: "password",
-        // },
+        {
+          type: "InputEditor",
+          label: "密码",
+          field: "password",
+        },
       ],
       qrcode:{}
     };
