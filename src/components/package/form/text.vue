@@ -50,6 +50,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .input_container {
   display: block;
+  max-width: 600px;
   width: 100%;
 }
 </style>

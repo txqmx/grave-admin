@@ -85,6 +85,11 @@ export default defineComponent({
           label: '详情',
           field: 'detail',
         },
+        {
+          type: 'TimelineEditor',
+          label: '人物事迹',
+          field: 'timeline',
+        },
       ],
     };
   },
